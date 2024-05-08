@@ -49,6 +49,10 @@ class RegistrationForm:
         self.root.geometry('400x200')
         self.root.title('Sign up')
 
+        background_image = PhotoImage(file = 'castel1.JPG')
+        background_label = tk.Label(root, image=background_image)
+        background_label.place(relwidth = 1, relheight = 1)
+
         self.username_label = tk.Label(root, text = 'username: ')
         self.username_label.grid(row = 0, column = 0)
         self.username = tk.StringVar()

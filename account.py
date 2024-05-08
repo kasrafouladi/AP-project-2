@@ -1,5 +1,6 @@
 import json
 import simplelogin
+import tkinter as tk
 
 def hash(user):
     bs = [259, 258, 257, 256, 263]
