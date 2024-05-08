@@ -1,4 +1,5 @@
 import json
+import filecmp
 
 def hash(user):
     bs = [259, 258, 257, 256, 263]
@@ -25,9 +26,14 @@ class Account:
         self.user1 = user
         self.user2 = hash(user)
         
-        #file = open('./a.json')
-        #info = json.load(file)
-        #print(info)
+        # باز کردن فایل برای خواندن
+        with open('./a.json', 'r') as f:
+        # خواندن محتوای فایل
+            file_contents = f.read()
+        # چاپ محتوا
+            print(file_contents)
+        # فایل به طور خودکار بسته می‌شود
+
         return
     
 a = Account("salam")
