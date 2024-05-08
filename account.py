@@ -21,19 +21,34 @@ class Account:
     """
     user1 = username, user2 = hash(username)
     acess level: 1 = whatch(cant edit), 2 = can edit but just its own things, 3 = can do any thing(colider), 4 = 3 + can invite & kick out and its just owner
+    boards = {"board name": acess level}
     """
     def __init__(self, user):
         self.user1 = user
         self.user2 = hash(user)
-        
-        # باز کردن فایل برای خواندن
-        with open('./a.json', 'r') as f:
-        # خواندن محتوای فایل
+        with open('boards.json', 'r') as f:
             file_contents = f.read()
-        # چاپ محتوا
-            print(file_contents)
-        # فایل به طور خودکار بسته می‌شود
-
+            self.boards = json.loads(file_contents)
+        with open('inbox.json', 'r') as f:
+            file_contents = f.read()
+            self.inbox = json.loads(file_contents)
         return
+
+
+def sign_up():
+
+    return
+
+def sign_in():
+
+    return
+
+def enter():
     
-a = Account("salam")
+    return
+
+def main():
+    a = Account("salam")
+
+if __name__ == '__main__':
+    main()
