@@ -1,5 +1,5 @@
 import json
-import filecmp
+import simplelogin
 
 def hash(user):
     bs = [259, 258, 257, 256, 263]
@@ -24,28 +24,21 @@ class Account:
     boards = {"board name": acess level}
     """
     def __init__(self, user):
+        self.root = tk.Tk()
+        simplelogin.ejra(self.root)
         self.user1 = user
         self.user2 = hash(user)
+        
         with open('boards.json', 'r') as f:
             file_contents = f.read()
             self.boards = json.loads(file_contents)
+        
         with open('inbox.json', 'r') as f:
             file_contents = f.read()
             self.inbox = json.loads(file_contents)
         return
 
 
-def sign_up():
-
-    return
-
-def sign_in():
-
-    return
-
-def enter():
-    
-    return
 
 def main():
     a = Account("salam")
