@@ -14,13 +14,13 @@ class LoginForm:
         self.root = root
         self.root.title('Sign in')
         
-        self.username_label = tk.Label(root, text = 'username: ')
+        self.username_label = tk.Label(root, text = 'Username: ')
         self.username_label.grid(row = 0, column = 0)
         self.username = tk.StringVar()
         self.username_entry = tk.Entry(root, textvariable=self.username)
         self.username_entry.grid(row = 0, column = 1)
 
-        self.password_label = tk.Label(root, text = 'password: ')
+        self.password_label = tk.Label(root, text = 'Password: ')
         self.password_label.grid(row = 1, column = 0)
         self.password = tk.StringVar()
         self.password_entry = tk.Entry(root, textvariable=self.password, show='*')
