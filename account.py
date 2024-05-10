@@ -19,16 +19,10 @@ def hash(user):
     return res
 
 class Account:
-    """
-    user1 = username, user2 = hash(username)
-    acess level: 1 = whatch(cant edit), 2 = can edit but just its own things, 3 = can do any thing(colider), 4 = 3 + can invite & kick out and its just owner
-    boards = {"board name": acess level}
-    """
-    def __init__(self, root):
-        self.root = root
-        simplelogin.ejra(self.root)
-        #self.user1 = user
-        #self.user2 = hash(user)
+    
+    def __init__(self, user):
+        self.user1 = user
+        self.user2 = hash(user)
         
         with open('boards.json', 'r') as f:
             file_contents = f.read()
@@ -38,17 +32,13 @@ class Account:
             file_contents = f.read()
             self.inbox = json.loads(file_contents)
         return
-    def say_hi(self):
-        print("hi!!")
+    
 
 
 
 def main():
     root = tk.Tk()
-    a = Account(root)
-    a.say_hi() 
-    root.mainloop(2 - simplelogin.cnt)
-    simplelogin.clear_frame(root)
+    root.mainloop()
     return
 
 if __name__ == '__main__':
