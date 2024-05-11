@@ -4,7 +4,6 @@ import time
 import json
 from tkinter import *
 from tkinter import ttk
-from tkinter import Tk
 from functools import partial
 
 def check_internet_connection():
@@ -37,3 +36,5 @@ def get_public_ip():
     data = json.loads(response.split('\r\n\r\n')[1])
 
     return data['ip']
+
+print(get_public_ip())
