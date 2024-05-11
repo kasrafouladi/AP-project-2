@@ -1,5 +1,4 @@
-import json
-import tkinter as tk
+import basic_online as bo
 
 def hash(user):
     bs = [259, 258, 257, 256, 263]
@@ -21,7 +20,7 @@ class Account:
     def __init__(self, user):
         self.user1 = user
         self.user2 = hash(user)
-        
+        # bar resi vaziat
         with open(self.user2 + 'boards.json', 'r') as f:
             file_contents = f.read()
             self.boards = json.loads(file_contents)

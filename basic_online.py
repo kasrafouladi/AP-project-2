@@ -31,10 +31,3 @@ def get_public_ip():
     data = json.loads(response.split('\r\n\r\n')[1])
 
     return data['ip']
-
-if check_internet_connection():
-    print("You have an internet connection.")
-    my_ip = get_public_ip()
-    print(my_ip)
-else:
-    print("No internet connection detected.")

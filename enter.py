@@ -1,6 +1,8 @@
 import tkinter as tk
 import time
+import json
 import account
+import basic_online
 from tkinter import *
 from tkinter import ttk
 from functools import partial
@@ -23,6 +25,9 @@ class LoginForm:
         self.username = tk.StringVar()
         self.username_entry = tk.Entry(self.root, textvariable=self.username)
         self.username_entry.grid(row = 1, column = 1)
+
+        self.s = tk.Label(self.root, text = '')
+        self.s.grid(row = 2, column = 1)
 
         self.password_label = tk.Label(self.root, text = 'Password')
         self.password_label.grid(row = 3, column = 0)
@@ -115,7 +120,7 @@ class RegistrationForm:
         isok = [True, True]
 
         if len(user) < 2:
-            self.username_sub_label.config(text='username\'s length has\nto be more than 1')
+            self.username_sub_label.config(text='username\'s length has\nto be between 2-20')
             return
 
         for c in user:
@@ -143,17 +148,23 @@ class RegistrationForm:
         return
 
 def enter(root):
-    #if has net
-    with open('saved_login.json', 'r') as f:
-        file_contents = f.read()
-        dict = json.loads(file_contents)
-        if time.time() - dict["time"] <= 7 * 24 * 60 * 60:
-            a = account.Account(dict["name"])
-            a.show_dashboard(root)
-        else:
-            dict["time"] = 0
-            dict["user"] = ""
-            LoginForm(root)
+    if basic_online.check_internet_connection():
+        with open('saved_login.json', 'r') as f:
+            file_contents = f.read()
+            dict = json.loads(file_contents)
+            if time.time() - dict["time"] <= 7 * 24 * 60 * 60:
+                dict["time"] = time.time()
+                a = account.Account(dict["name"])
+                a.update_files()
+                a.show_dashboard(root)
+            else:
+                dict["time"] = 0
+                dict["user"] = ""
+                with open('saved_login.json','w') as outfile:
+                    json.dump(dict, outfile)
+                LoginForm(root)
+    #else:
+
     #if a saved login existed enter, otherwise continue
 
     #badesh ke ok shod injoori pish boro
@@ -165,11 +176,3 @@ def enter(root):
             # age online bood)
                             #\saved login nabood ham bere file hashoo download kone
     return
-
-def main():
-    root = tk.Tk()
-    enter(root)
-    root.mainloop()
-    return
-
-main()
