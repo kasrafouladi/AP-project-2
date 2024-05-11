@@ -1,8 +1,8 @@
-import enter
+import enter as en
 
 def main():
-    root = enter.tk.Tk()
-    enter.enter(root)
+    root = en.ac.bo.tk.Tk()
+    en.enter(root)
     root.mainloop()
     return
 

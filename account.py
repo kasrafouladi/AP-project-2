@@ -23,15 +23,15 @@ class Account:
         # bar resi vaziat
         with open(self.user2 + 'boards.json', 'r') as f:
             file_contents = f.read()
-            self.boards = json.loads(file_contents)
+            self.boards = bo.json.loads(file_contents)
         
         with open(self.user2 + 'inbox.json', 'r') as f:
             file_contents = f.read()
-            self.inbox = json.loads(file_contents)
+            self.inbox = bo.json.loads(file_contents)
 
         with open(self.user2 + 'invitations.json', 'r') as f:
             file_contents = f.read()
-            self.invitations = json.loads(file_contents)
+            self.invitations = bo.json.loads(file_contents)
         return
 
     def update_files(self):

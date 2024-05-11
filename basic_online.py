@@ -1,5 +1,11 @@
 import socket
+import tkinter as tk
+import time
 import json
+from tkinter import *
+from tkinter import ttk
+from tkinter import Tk
+from functools import partial
 
 def check_internet_connection():
     try:

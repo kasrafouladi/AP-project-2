@@ -1,11 +1,4 @@
-import tkinter as tk
-import time
-import json
-import account
-import basic_online
-from tkinter import *
-from tkinter import ttk
-from functools import partial
+import account as ac
 
 def clear_frame(root):        
     for widget in root.winfo_children():
@@ -17,34 +10,34 @@ class LoginForm:
         self.root = root
         self.root.title('Enter')
 
-        self.head_label = tk.Label(self.root, text = 'Login', font = ('calibri', 14))
+        self.head_label = ac.bo.tk.Label(self.root, text = 'Login', font = ('calibri', 14))
         self.head_label.grid(row = 0, column = 1)
 
-        self.username_label = tk.Label(self.root, text = 'Username')
+        self.username_label = ac.bo.tk.Label(self.root, text = 'Username')
         self.username_label.grid(row = 1, column = 0)
-        self.username = tk.StringVar()
-        self.username_entry = tk.Entry(self.root, textvariable=self.username)
+        self.username = ac.bo.tk.StringVar()
+        self.username_entry = ac.bo.tk.Entry(self.root, textvariable=self.username)
         self.username_entry.grid(row = 1, column = 1)
 
-        self.s = tk.Label(self.root, text = '')
+        self.s = ac.bo.tk.Label(self.root, text = '')
         self.s.grid(row = 2, column = 1)
 
-        self.password_label = tk.Label(self.root, text = 'Password')
+        self.password_label = ac.bo.tk.Label(self.root, text = 'Password')
         self.password_label.grid(row = 3, column = 0)
-        self.password = tk.StringVar()
-        self.password_entry = tk.Entry(self.root, textvariable=self.password, show = '*')
+        self.password = ac.bo.tk.StringVar()
+        self.password_entry = ac.bo.tk.Entry(self.root, textvariable=self.password, show = '*')
         self.password_entry.grid(row = 3, column = 1)
 
-        self.isok = tk.Label(self.root, text = '')
+        self.isok = ac.bo.tk.Label(self.root, text = '')
         self.isok.grid(row = 4, column = 1)
 
-        self.saved_login = tk.StringVar()
-        self.checkmark = ttk.Checkbutton(self.root, text= 'Remember me', variable= self.saved_login, onvalue = '1', offvalue = '0')
+        self.saved_login = ac.bo.tk.StringVar()
+        self.checkmark = ac.bo.ttk.Checkbutton(self.root, text= 'Remember me', variable= self.saved_login, onvalue = '1', offvalue = '0')
         self.checkmark.grid(row = 5, column = 1)
 
-        self.register_button = tk.Button(self.root, text = 'Login', command= self.validate_login)
+        self.register_button = ac.bo.tk.Button(self.root, text = 'Login', command= self.validate_login)
         self.register_button.grid(row = 6, column = 0)
-        self.exit_button = tk.Button(self.root, text = 'Create account', command=self.ext)
+        self.exit_button = ac.bo.tk.Button(self.root, text = 'Create account', command=self.ext)
         self.exit_button.grid(row = 6, column = 1)
         return
 
@@ -58,49 +51,48 @@ class LoginForm:
         #edame
         return
 
-
 class RegistrationForm:
     def __init__(self, root):
         self.root = root
         self.root.title('Registration')
 
-        self.head_label = tk.Label(self.root, text = 'Register', font = ('calibri', 14))
+        self.head_label = ac.bo.tk.Label(self.root, text = 'Register', font = ('calibri', 14))
         self.head_label.grid(row = 0, column = 1)
 
-        self.username_label = tk.Label(self.root, text = 'Username')
+        self.username_label = ac.bo.tk.Label(self.root, text = 'Username')
         self.username_label.grid(row = 1, column = 0)
-        self.username = tk.StringVar()
-        self.username_entry = tk.Entry(self.root, textvariable=self.username)
+        self.username = ac.bo.tk.StringVar()
+        self.username_entry = ac.bo.tk.Entry(self.root, textvariable=self.username)
         self.username_entry.grid(row = 1, column = 1)
         
-        self.username_sub_label = tk.Label(self.root, text = '')
+        self.username_sub_label = ac.bo.tk.Label(self.root, text = '')
         self.username_sub_label.grid(row = 2, column = 1)         
 
-        self.password_label = tk.Label(self.root, text = 'Password')
+        self.password_label = ac.bo.tk.Label(self.root, text = 'Password')
         self.password_label.grid(row = 3, column = 0)
-        self.password = tk.StringVar()
-        self.password_entry = tk.Entry(self.root, textvariable = self.password, show = '*')
+        self.password = ac.bo.tk.StringVar()
+        self.password_entry = ac.bo.tk.Entry(self.root, textvariable = self.password, show = '*')
         self.password_entry.grid(row = 3, column = 1)
         
-        self.password_sub_label = tk.Label(self.root, text = '')
+        self.password_sub_label = ac.bo.tk.Label(self.root, text = '')
         self.password_sub_label.grid(row = 4, column = 1)
 
-        self.confirm_password_label = tk.Label(self.root, text = 'Confirm\nPassword')
+        self.confirm_password_label = ac.bo.tk.Label(self.root, text = 'Confirm\nPassword')
         self.confirm_password_label.grid(row = 5, column = 0)
-        self.confirm_password = tk.StringVar()
-        self.confirm_password_entry = tk.Entry(self.root, textvariable = self.confirm_password, show = '*')
+        self.confirm_password = ac.bo.tk.StringVar()
+        self.confirm_password_entry = ac.bo.tk.Entry(self.root, textvariable = self.confirm_password, show = '*')
         self.confirm_password_entry.grid(row = 5, column = 1)
         
-        self.confirm_password_sub_label = tk.Label(self.root, text = '')
+        self.confirm_password_sub_label = ac.bo.tk.Label(self.root, text = '')
         self.confirm_password_sub_label.grid(row = 6, column = 1)
 
-        self.saved_login = tk.StringVar()
-        self.checkmark = ttk.Checkbutton(self.root, text = 'Remember me', variable= self.saved_login, onvalue = '1', offvalue = '0')
+        self.saved_login = ac.bo.tk.StringVar()
+        self.checkmark = ac.bo.ttk.Checkbutton(self.root, text = 'Remember me', variable= self.saved_login, onvalue = '1', offvalue = '0')
         self.checkmark.grid(row = 7, column = 1)
 
-        self.register_button = tk.Button(self.root, text = 'Regirster', command=self.validate_registration)
+        self.register_button = ac.bo.tk.Button(self.root, text = 'Regirster', command=self.validate_registration)
         self.register_button.grid(row = 8, column = 0)
-        self.exit_button = tk.Button(self.root, text = 'Have an account', command=self.ext)
+        self.exit_button = ac.bo.tk.Button(self.root, text = 'Have an account', command=self.ext)
         self.exit_button.grid(row = 8, column = 1)
         return
 
@@ -148,20 +140,20 @@ class RegistrationForm:
         return
 
 def enter(root):
-    if basic_online.check_internet_connection():
+    if ac.bo.check_internet_connection():
         with open('saved_login.json', 'r') as f:
             file_contents = f.read()
-            dict = json.loads(file_contents)
-            if time.time() - dict["time"] <= 7 * 24 * 60 * 60:
-                dict["time"] = time.time()
-                a = account.Account(dict["name"])
+            dict = ac.bo.json.loads(file_contents)
+            if ac.bo.time.time() - dict["time"] <= 7 * 24 * 60 * 60:
+                dict["time"] = ac.bo.time.time()
+                a = ac.account.Account(dict["name"])
                 a.update_files()
                 a.show_dashboard(root)
             else:
                 dict["time"] = 0
                 dict["user"] = ""
                 with open('saved_login.json','w') as outfile:
-                    json.dump(dict, outfile)
+                    ac.bo.json.dump(dict, outfile)
                 LoginForm(root)
     #else:
 
