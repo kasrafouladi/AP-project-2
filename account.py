@@ -36,25 +36,19 @@ class Account:
         return
 
     def update_files(self):
-        if(basic_online.has_connention()):
-            """
-            0. after connection to the net -> {files -> server, server -> client}
-            1. after that if somthing happens from another place server must that file updates to client
-            2. after somthing happens in client's pc, client have to send the updates just like git commit 
-            """
+        pass
 
     def show_dashboard(self, root):
-
+        pass
 
     def show_inbox(self, root):
-        
+        pass
 
     def show_invitations(self, root):
-
+        pass
     
     def show_dashboard(self, root):
-
+        pass
 
     def show_board(self, root, key_val):
-    
-a = Account("")
+        pass
