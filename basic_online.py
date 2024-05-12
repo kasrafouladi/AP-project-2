@@ -1,10 +1,5 @@
 import socket
-import tkinter as tk
-import time
 import json
-from tkinter import *
-from tkinter import ttk
-from functools import partial
 
 def check_internet_connection():
     try:
@@ -19,22 +14,18 @@ def check_internet_connection():
 def get_public_ip():
     # Create a socket
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
     # Connect to the IP address of the ipify.org server
     s.connect(('api64.ipify.org', 80))
-
     # Send an HTTP GET request
     s.send(b'GET /?format=json HTTP/1.1\r\nHost: api64.ipify.org\r\n\r\n')
-
     # Receive the response
     response = s.recv(1024).decode('utf-8')
-
     # Close the socket
     s.close()
-
     # Parse the JSON response
     data = json.loads(response.split('\r\n\r\n')[1])
-
+    print(data)
+    print("*****")
     return data['ip']
 
 print(get_public_ip())
