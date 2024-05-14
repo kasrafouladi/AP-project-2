@@ -34,20 +34,26 @@ class Account:
             self.invitations = bo.json.loads(file_contents)
         return
 
-    def update_files(self):
-        pass
-
-    def show_dashboard(self, root):
-        pass
-
-    def show_inbox(self, root):
-        pass
-
-    def show_invitations(self, root):
+    def project_owerview(self, name):
+        
         pass
     
     def show_dashboard(self, root):
+        
         pass
 
-    def show_board(self, root, key_val):
+    def show_inbox(self, root):
+        
+        pass
+
+    def show_invitations(self, root):
+        
+        pass
+    
+    def show_dashboard(self):
+
+        pass
+
+    def show_template(self, name, type):
+        
         pass
