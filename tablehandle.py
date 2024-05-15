@@ -1,3 +1,5 @@
+#cd C:\Users\Lenovo\OneDrive\Desktop\AP-project-2
+
 import subprocess
 import os
 os.system('cls')
@@ -12,8 +14,10 @@ print('attempts: 0', end='')
 cnt = 0
 
 #how to find a file
-file = open('a/b.txt', 'r')
-
+#file = open('a/b.txt', 'r')
+dc = {'salam': 1}
+print("\033[5;30H", end = '')
+print('salam' in dc.keys() and dc['salam'] == 1)
 while True:
     print("\033[1;30H", end = '')
     x = input()

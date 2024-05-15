@@ -35,7 +35,7 @@ class Account:
         return
 
     def project_owerview(self, name):
-        
+        b.start_from
         pass
     
     def show_dashboard(self, root):

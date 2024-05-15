@@ -2,6 +2,7 @@ import json
 import os
 import time
 import subprocess
+import msvcrt
 
 def hash(s1):
     bs = [259, 258, 257, 256, 263]
@@ -27,6 +28,7 @@ def start():
 
 def head(user = ''):
     os.system('cls')
+    bold()
     print('\033[33m', end = '')
     print('OC board')
     print('Created by: Orange Car')
@@ -40,10 +42,28 @@ def head(user = ''):
     print('\033[32m', end = '')
     print('Local time: ' + time.ctime() + '\n')
     print('\033[37m', end = '')
+    bold(False)
+
+def start_from(x, y):
+    s = '\033[' + str(x) + ';' + str(y) + 'H'
+    print(s, end = '')
+
+def bold(on = True):
+    if on == True:
+        print('\033[1m')
+    else:
+        print('\033[0m')
+
+def getch():
+    return msvcrt.getch().decode()
 
 def main():
     start()
     head('kasra')
+    start_from(10, 10)
+    input()
+    bold()
+    print('Jableb')
 
 if __name__ == '__main__':
     main()
