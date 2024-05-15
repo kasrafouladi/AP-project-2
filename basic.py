@@ -1,33 +1,49 @@
-import tkinter as tk
-from functools import partial
+import json
+import os
+import time
+import subprocess
 
-class LoginForm:
-    def __init__(self, root):
-        self.root = root
-        self.root.geometry('400x200')
-        self.root.title('enter section')
-        self.choice_label = tk.Label(root, text = "choose")
-        self.choice_label.grid(row = 0, column = 0, columnspan = 2)
-        self.register_button = tk.Button(root, text = "sign up", command = self.show_registration_form)
-        self.register_button.grid(row = 1, column = 0)
-        self.login_button = tk.Button(root, text = "sign in", command = self.show_login_form)
-        self.login_button.grid(row = 1, column = 1)
-        return
+def hash(s1):
+    bs = [259, 258, 257, 256, 263]
+    md = [1000000021, 1000000009, 1000000007, 998244353, 2000000011]
+    res = ""
+    for i in range(5):
+        sum = 0
+        for j in range(len(s1)):
+            sum = ((sum * bs[i]) + ord(s1[j])) % md[i]
+        s2 = str(sum)
+        for j in range(11 - len(s2)):
+            res += '0'
+        res += s2
+    return res
 
-    def clear_frame(self):
-        for widget in self.root.winfo_children():
-            widget.destroy()
-        return
+def todict(s):
+    file = open(s, 'r')
+    content = file.read()
+    return json.loads(content)
 
-    def show_registration_form(self):
-        self.clear_frame()
-        return
+def start():
+    subprocess.run('', shell = True)
 
-    def show_login_form(self):
-        self.clear_frame()
-        return
+def head(user = ''):
+    os.system('cls')
+    print('\033[33m', end = '')
+    print('OC board')
+    print('Created by: Orange Car')
+    print('\033[37m', end = '')
+    if len(user) != 0:
+        print('_' * 50)
+        print('\033[35m', end = '')
+        print('~ ' + user)
+        print('\033[37m', end = '')
+    print('_' * 50)
+    print('\033[32m', end = '')
+    print('Local time: ' + time.ctime() + '\n')
+    print('\033[37m', end = '')
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = LoginForm(root)
-    root.mainloop()
+def main():
+    start()
+    head('kasra')
+
+if __name__ == '__main__':
+    main()

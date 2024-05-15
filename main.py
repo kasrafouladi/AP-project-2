@@ -1,9 +1,8 @@
-import enter as en
+import enter
 
 def main():
-    root = en.ac.bo.tk.Tk()
-    en.enter(root)
-    root.mainloop()
-    return
+    enter.b.start()
+    enter.b.head()
 
-main()
+if __name__ == '__main__':
+    main()
