@@ -30,10 +30,11 @@ class Enter:
                 self.signup()
                 return
             password = b.getpsw(9, 54)
-            if self.validate_signin(b.hash(username), password) == True:
-                c_col(32)
-                print('Do you want to save your login for a week? (Y: yes/any other key: no) ')
-                c_col(37)
+            if self.validate_signin(username, password) == True:
+                b.c_col(32)
+                b.start_from(10, 5)
+                print('Do you want to save your login for a week? (Y: yes/any other key: no) ', end = '', flush=True)
+                b.c_col(37)
                 c = b.getch()
                 if c == 'Y':
                     b.tojson('accounts/saved_login.json', {"user": username, "time": b.time.time()})
@@ -49,9 +50,11 @@ class Enter:
         b.c_col(31)
         user = b.hash(username)
         pasw = b.hash(password)
+        b.start_from(10, 54)
+        print('                               ', end = '')
         if user not in users.keys() or users[user] != pasw:
             b.start_from(10, 54)
-            print('Username or password is invlaid')
+            print('Username or password is invlaid', end = '')
             b.c_col(37)
             return 0
         b.c_col(37)
@@ -79,7 +82,8 @@ class Enter:
             confirmpassword = b.getpsw(11, 54)
             if self.validate_signup(username, password, confirmpassword) == 1:
                 b.c_col(32)
-                print('Do you want to save your login for a week? (Y: yes/any other key: no) ')
+                b.start_from(12, 0)
+                print('Do you want to save your login for a week? (Y: yes/any other key: no) ', end = '', flush=True)
                 b.c_col(37)
                 c = b.getch()
                 if c == 'Y':

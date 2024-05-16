@@ -66,14 +66,19 @@ def getpsw(x, y):
     bold()
     res = ''
     start_from(x, y)
-    print(' ' * 40)
+    print(' ' * y)
+    start_from(x, y)
     while True:
         c = getch()
         if ord(c) == 8:
-            res.rstrip()
-            start_from(x, y)
-            print('\b \b', end = '', flush = True)
-            y -= 1
+            if len(res) > 0:
+                res = res[:-1]
+                start_from(x, y)
+                print('\b \b', end = '', flush = True)
+                y -= 1
+            else:
+                start_from(x, y)
+                print(' ', end = '', flush = True)
         elif ord(c) == 13:
             bold(False)
             return res
@@ -84,7 +89,11 @@ def getpsw(x, y):
             res += c
 
 def main():
-    head('kasra')
+    #print(hash('fouladi'))
+    #head('kasra')
+    #res = getpsw(10, 20)
+    #print(res)
+    pass
 
 if __name__ == '__main__':
     main()
