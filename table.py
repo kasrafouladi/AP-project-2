@@ -1,5 +1,6 @@
 from tabulate import tabulate
 import os
+import basic as b
 
 table_data = [
     ["", "backlog", "todo", "doing", "done", "archived"],
@@ -52,7 +53,7 @@ def display_table():
     rows = []
     for i, row in enumerate(table_data[1:], start=1):
         rows.append([str(i)] + [", ".join(task) if task else "" for task in row[1:]])
-
+    b.start_from(7, 5)
     print(tabulate(rows, headers=headers, tablefmt='fancy_grid'))
 
 def add_task():
@@ -79,6 +80,8 @@ def add_task():
 
 def main_menu():
     while True:
+        b.head()
+        b.bold()
         display_table()
         action = input("Select an action:\n1. Move tasks\n2. Edit or add tasks\n3. Exit\nEnter a number: ")
         if action == '1':
