@@ -1,63 +1,135 @@
 import subprocess
+import getpass
 import basic as b
-#import account as acc
+import account as acc
 
-class Enter()
-    def enter(self):
+class Enter:
+    def ent(self):
         sl = b.todict('accounts/saved_login.json')
-        if b.time.time() - sl['time'] <= 7 * 24 * 60 * 60:
-            acc.Enviorment.ac(sl['name'], backup=True)
+        if b.time.time() - sl["time"] <= 7 * 24 * 60 * 60:
+            acc.account.controller(sl["user"], backup=True)
         else:
+            b.tojson('accounts/saved_login.json', {"user": "sign in", "time": 0})
             self.signin()
 
     def signin(self):
         b.head()
-        b.start_from(8, 1)
+        b.start_from(5, 1)
         b.bold()
-        print(' ' * 9 + 'Sign up')
+        print(' ' * 49 + 'Sign in')
+        print(' ' * 40 + ' Username :\n')
+        print(' ' * 40 + ' Password :\n')
+        print('-' * 120)
         print('IF you want to sign in write \'sign up\' in the form instead of username', end = '')
-        print('-' * 50)
-        print('Username :\n')
-        print('Password :\n')
-        print('Confirm  :\nPassword\n')
         b.bold(False)
 
         while True:
+            b.start_from(7, 54)
             username = input()
-            if(username == 'sign up')
-                self.signin()
+            if username == 'sign up':
+                self.signup()
                 return
-            password
+            password = b.getpsw(9, 54)
+            if self.validate_signin(b.hash(username), password) == True:
+                c_col(32)
+                print('Do you want to save your login for a week? (Y: yes/any other key: no) ')
+                c_col(37)
+                c = b.getch()
+                if c == 'Y':
+                    b.tojson('accounts/saved_login.json', {"user": username, "time": b.time.time()})
+                acc.Account(username, True)
+                return
+            b.start_from(7, 54)
+            print(' ' * len(username))
+            b.start_from(9, 54)
+            print(' ' * len(password))
 
-    def validate_sign_in(self, username, password):
+    def validate_signin(self, username, password):
         users = b.todict('accounts/users.json')
-        return username in users.keys() and users[username] == password
+        b.c_col(31)
+        user = b.hash(username)
+        pasw = b.hash(password)
+        if user not in users.keys() or users[user] != pasw:
+            b.start_from(10, 54)
+            print('Username or password is invlaid')
+            b.c_col(37)
+            return 0
+        b.c_col(37)
+        return 1
 
     def signup(self):
         b.head()
-        b.start_from(8, 1)
+        b.start_from(5, 1)
         b.bold()
-        print(' ' * 9 + 'Sign in')
+        print(' ' * 49 + 'Sign up')
+        print(' ' * 40 +' Username :\n')
+        print(' '* 40 + ' Password :\n')
+        print(' ' * 40 + ' Confirm :\n' + ' ' * 40  +'Password\n')
+        print('-' * 120)
         print('IF you want to sign in write \'sign in\' in the form instead of username', end = '')
-        print('-' * 50)
-        print('Username :\n')
-        print('Password :\n')
-        print('Confirm  :\nPassword\n')
         b.bold(False)
 
         while True:
+            b.start_from(7, 54)
             username = input()
-            if(username == 'sign in')
+            if username == 'sign in':
                 self.signin()
                 return
-            password
+            password = b.getpsw(9, 54)
+            confirmpassword = b.getpsw(11, 54)
+            if self.validate_signup(username, password, confirmpassword) == 1:
+                b.c_col(32)
+                print('Do you want to save your login for a week? (Y: yes/any other key: no) ')
+                b.c_col(37)
+                c = b.getch()
+                if c == 'Y':
+                    b.tojson('accounts/saved_login.json', {"user": username, "time": b.time.time()})
+                userslist = b.todict('accounts/users.json')
+                userslist.update({b.hash(username): b.hash(password)})
+                b.tojson('accounts/users.json', userslist)
+                acc.Account(username, False)
+                return
+            b.start_from(7, 54)
+            print(' ' * len(username))
+            b.start_from(9, 54)
+            print(' ' * len(password))
+            b.start_from(11, 54)
+            print(' ' * len(confirmpassword))
 
-    def validate_sign_up(self, username, password, confirmpassword):# 0:username and password can't be empty  -1: this username is taken by another account, -2: passwords aren't match
+    def validate_signup(self, username, password, confirmpassword):
         users = b.todict('accounts/users.json')
-        if len(username) == 0 or len(password) == 0:
-            return 0
+        b.c_col(31)
+        ok = True
+        if len(username) == 0:
+            b.start_from(8, 54)
+            print("Username's lenght can't be 0", end = "")
+            ok = ok and False
+        else:
+            b.start_from(8, 54)
+            print("                            ", end = "")
+
+        if len(password) == 0:
+            b.start_from(10, 54)
+            print("Passwords's lenght can't be 0", end = "")
+            ok = False
+        else:
+            b.start_from(10, 54)
+            print("                             ", end = "")
+
         if b.hash(username) in users.keys():
-            return -1
+            b.start_from(8, 54)
+            print("This username is taken by another user", end = "")
+            ok = False
+        else:
+            b.start_from(8, 54)
+            print("                                      ", end = "")
+
         if password != confirmpassword:
-            return -2
-        return 1
+            b.start_from(12, 54)
+            print("Passwords aren't match", end = "")
+            ok = False
+        else:
+            b.start_from(12, 54)
+            print("                      ", end = "")
+        
+        return ok

@@ -18,35 +18,17 @@ def hash(s1):
         res += s2
     return res
 
-def todict(s):
-    file = open(s, 'r')
-    content = file.read()
-    return json.loads(content)
+def todict(file_name):
+    with open(file_name, "r") as json_file:
+        my_dictionary = json.load(json_file)
+    return my_dictionary
+
+def tojson(address, my_dict):
+    json_file =  open(address, "w")
+    json.dump(my_dict, json_file)
 
 def start():
     subprocess.run('', shell = True)
-
-def head(user = ''):
-    os.system('cls')
-    bold()
-    print('\033[33m', end = '')
-    print('OC board')
-    print('Created by: Orange Car')
-    print('\033[37m', end = '')
-    if len(user) != 0:
-        print('_' * 50)
-        print('\033[35m', end = '')
-        print('~ ' + user)
-        print('\033[37m', end = '')
-    print('_' * 50)
-    print('\033[32m', end = '')
-    print('Local time: ' + time.ctime() + '\n')
-    print('\033[37m', end = '')
-    bold(False)
-
-def start_from(x, y):
-    s = '\033[' + str(x) + ';' + str(y) + 'H'
-    print(s, end = '')
 
 def bold(on = True):
     if on == True:
@@ -54,16 +36,55 @@ def bold(on = True):
     else:
         print('\033[0m')
 
+def c_col(x):
+    s = '\033[' + str(x) + 'm';
+    print(s, end = '')
+
 def getch():
     return msvcrt.getch().decode()
 
-def main():
-    start()
-    head('kasra')
-    start_from(10, 10)
-    input()
+def head(user = ''):
+    os.system('cls')
     bold()
-    print('Jableb')
+    c_col(33)
+    print('OC board' + ' ' * 24  + 'Created by: Orange Car' + ' ' * 30, end = '')
+    c_col(32)
+    print('Local time: ' + time.ctime())
+    c_col(37)
+    if len(user) != 0:
+        c_col(35)
+        print('~ ' + user)
+        c_col(37)
+    print('_' * 120)
+    bold(False)
+
+def start_from(x, y):
+    s = '\033[' + str(x) + ';' + str(y) + 'H'
+    print(s, end = '')
+
+def getpsw(x, y):
+    bold()
+    res = ''
+    start_from(x, y)
+    print(' ' * 40)
+    while True:
+        c = getch()
+        if ord(c) == 8:
+            res.rstrip()
+            start_from(x, y)
+            print('\b \b', end = '', flush = True)
+            y -= 1
+        elif ord(c) == 13:
+            bold(False)
+            return res
+        else:
+            start_from(x, y)
+            print('*', end = '', flush = True)
+            y += 1
+            res += c
+
+def main():
+    head('kasra')
 
 if __name__ == '__main__':
     main()
