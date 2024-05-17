@@ -6,6 +6,8 @@ class Account:
         self.hname = b.hash(username)
         if isnew == True:
             self.create()
+        else:
+            self.backup()
         self.show_dashboard()
 
     def create(self):
@@ -17,6 +19,9 @@ class Account:
         f.close()
         f = open('accounts/' + self.hname + '/message.txt', 'a')
         f.close()
+
+    def backup(self):
+        pass
 
     def show_dashboard(self):
         b.head(self.name)
@@ -57,5 +62,7 @@ class Account:
         pass
 
     def create_projects(self):
-
+        cnt = 0
+        if cnt != 0:
+            self.projectlist.update("untiteled" + str(cnt) : ['projects/' + self.hname + '/' + str(b.time.time()), 4])
         pass
