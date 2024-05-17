@@ -1,39 +1,61 @@
 import basic as b
 
 class Account:
-
-    def __init__(self, username, backup):
+    def __init__(self, username, isnew):
         self.name = username
         self.hname = b.hash(username)
-        if backup == True:
+        if isnew == True:
             self.create()
-        else:
-            self.back_up()
         self.show_dashboard()
 
     def create(self):
-        pass
-
-    def backup(self):
-        pass
+        b.os.mkdir('./accounts/' + self.hname)
+        b.os.mkdir('./projects/' + self.hname)
+        f = open('projects/projects_list.json', 'a')
+        f.close()
+        f = open('accounts/' + self.hname + '/invitations.txt', 'a')
+        f.close()
+        f = open('accounts/' + self.hname + '/message.txt', 'a')
+        f.close()
 
     def show_dashboard(self):
         b.head(self.name)
-
+        """
+                    heading
+        messages   invatations   projects
+        1.......   1..........       
+        2.......   2..........  
+        3.......   3..........
+        4.......   4..........
+        5.......       .
+        6.......       .
+           .           .
+           .       10..........
+           .
+        10......
+        """
         pass
 
-    def show_inbox(self, root):
+    def send_message(self):
         
         pass
 
-    def show_invitations(self, root):
+    def show_messages(self):
+        
+        pass
+
+    def show_invitations(self):
         
         pass
     
-    def show_dashboard(self):
+    def send_invatation(self):
 
         pass
 
-    def show_template(self, name, type):
+    def show_projects(self):
         
+        pass
+
+    def create_projects(self):
+
         pass
