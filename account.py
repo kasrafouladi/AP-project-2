@@ -1,5 +1,5 @@
 import basic as b
-import project as p   
+#import project as p   
 
 class Account:
     def __init__(self, username, isnew):
@@ -76,5 +76,3 @@ class Account:
         p.Project('projects/' + self.name + '/' + str(b.time.time()))
         pass
     
-    
-Account('123', True)

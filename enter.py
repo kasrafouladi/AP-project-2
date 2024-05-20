@@ -5,6 +5,7 @@ import account as acc
 
 class Enter:
     def ent(self):
+        self.signin()
         sl = b.todict('accounts/saved_login.json')
         if b.time.time() - sl["time"] <= 7 * 24 * 60 * 60:
             acc.account.controller(sl["user"], backup=True)
