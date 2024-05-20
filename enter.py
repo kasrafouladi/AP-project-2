@@ -5,10 +5,9 @@ import account as acc
 
 class Enter:
     def ent(self):
-        self.signin()
         sl = b.todict('accounts/saved_login.json')
         if b.time.time() - sl["time"] <= 7 * 24 * 60 * 60:
-            acc.account.controller(sl["user"], backup=True)
+            acc.Account(sl["user"], False)
         else:
             b.tojson('accounts/saved_login.json', {"user": "sign in", "time": 0})
             self.signin()
@@ -49,11 +48,10 @@ class Enter:
     def validate_signin(self, username, password):
         users = b.todict('accounts/users.json')
         b.c_col(31)
-        user = b.hash(username)
         pasw = b.hash(password)
         b.start_from(10, 54)
         print('                               ', end = '')
-        if user not in users.keys() or users[user] != pasw:
+        if username not in users.keys() or users[username] != pasw:
             b.start_from(10, 54)
             print('Username or password is invlaid', end = '')
             b.c_col(37)
@@ -90,7 +88,7 @@ class Enter:
                 if c == 'Y':
                     b.tojson('accounts/saved_login.json', {"user": username, "time": b.time.time()})
                 userslist = b.todict('accounts/users.json')
-                userslist.update({b.hash(username): b.hash(password)})
+                userslist.update({username: b.hash(password)})
                 b.tojson('accounts/users.json', userslist)
                 acc.Account(username, False)
                 return
@@ -121,7 +119,7 @@ class Enter:
             b.start_from(10, 54)
             print("                             ", end = "")
 
-        if b.hash(username) in users.keys():
+        if username in users.keys():
             b.start_from(8, 54)
             print("This username is taken by another user", end = "")
             ok = False

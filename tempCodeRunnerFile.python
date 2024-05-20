@@ -1,0 +1,13 @@
+import readline
+
+def get_input_with_editing(prompt):
+    # نمایش درخواست به کاربر
+    print(prompt, end="", flush=True)
+    
+    # خواندن ورودی کاربر با قابلیت ویرایش
+    input_text = input()
+
+    return input_text
+
+user_input = get_input_with_editing("لطفا ورودی خود را وارد کنید: ")
+print(f"ورودی شما: {user_input}")
