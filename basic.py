@@ -88,6 +88,9 @@ def getpsw(x, y):
             y += 1
             res += c
 
+def reverse(s):
+    return s[::-1]
+
 def main():
     #print(hash('fouladi'))
     #head('kasra')
