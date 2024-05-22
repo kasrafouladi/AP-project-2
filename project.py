@@ -36,5 +36,5 @@ def main():
         s = download()
         print(s)
         
-    
+if __name__ == '__main__'
 main()

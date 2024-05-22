@@ -38,7 +38,7 @@ class Enter:
                 c = b.getch()
                 if c == 'Y':
                     b.tojson('accounts/saved_login.json', {"user": username, "time": b.time.time()})
-                acc.Account(username, True)
+                acc.Account(username, False)
                 return
             b.start_from(7, 54)
             print(' ' * len(username))
@@ -90,7 +90,7 @@ class Enter:
                 userslist = b.todict('accounts/users.json')
                 userslist.update({username: b.hash(password)})
                 b.tojson('accounts/users.json', userslist)
-                acc.Account(username, False)
+                acc.Account(username, True)
                 return
             b.start_from(7, 54)
             print(' ' * len(username))

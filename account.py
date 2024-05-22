@@ -25,8 +25,8 @@ class Account:
 
     def show_dashboard(self):
         b.head(self.name)
-        msg = Msg
-        msg.send_message(msg, self.name)
+        msg = Msg()
+        msg.show_messages(self.name)
         """
                     heading
         messages   invatations   projects
@@ -62,13 +62,13 @@ class Account:
         self.counter += 1            #name : [path, acess_level]
         self.projectlist.update({"board" + str(self.counter) : ['projects/' + self.name + '/' + str(b.time.time()), 4]})
         b.os.mkdir('projects/' + self.name + '/' + str(b.time.time()))
-        p.Project('projects/' + self.name + '/' + str(b.time.time()))
+        #p.Project('projects/' + self.name + '/' + str(b.time.time()))
         pass
     
 class Msg:
-        
     def send_message(self, name):
         b.head()
+        b.bold()
         b.start_from(5, 5)
         print('From: ' + name, end = '')
         b.start_from(6, 5)
@@ -77,47 +77,41 @@ class Msg:
         print('Subject: ', end = '')
         b.start_from(8, 1)
         print('_' * 50)
+        b.start_from(18, 1)
+        print('-------------------------\nHere you can send messages to any one you want to send it press enter twice', end = '')
+        b.bold(False)
         b.start_from(6, 10)
         to = input()
         b.start_from(7, 15)
         subject = input()
+        self.msg = name + '\n' + to + '\n' + subject
         line = 9
-        self.msg = ''
-        line_len = 0
-        while True:
-            b.start_from(line, 5)
-            c = b.getch()
-            if ord(c) == 8 and line_len == 0:
-                self.edit_message(self, line)
-                line -= 1
-            else:
-                if ord(c) == 8:
-                    print("\b \b", end = '', flush=True)
-                    line_len -= 1
-                else:
-                    if ord(c) != 13:
-                        print(c, end = '', flush=True)
-                        line_len += 1
-                    else:
-                        print(c, end = '', flush=True)
-                        line += 1
-                        line_len = 0
-    
-    def edit_message(self, line):
-        b.start_from(line, 1)
-        s = 'enter the line withch you want to edit: '
-        print(s)
-        while True:
-            try:
-                b.start_from(line, len(s) + 2)
-                eline = input()
-                b.start_from(line, len(s) + 2)
-                print(' ' * len(eline), end = '', flush=True)
-                b.start_from(int(eline) + 9, 5)
+        while line < 18:
+            b.start_from(line, 2)
+            s = input()
+            line += 1
+            if len(s) == 0:
                 break
-            except ValueError:
-                continue
+            self.msg += '\n' + s
+        b.start_from(20, 1)
+        b.bold()
+        print('Press any key to send this message ', end = '')
+        b.bold(False)
+        ch = b.getch()
+        if b.os.path.exists('accounts/' + to + '/') == False:
+            print('there is no such user')
+            return
+        else:
+            now = b.time.ctime()
+            f = open('accounts/' + to + '/message.txt', 'a')
+            f.write(now + '\n' + self.msg + "\n\n\n")
+            f.close()
+            print('sent')
+        print('press a key to continue')
+        ch = b.getch()
 
-    def show_messages(self):
-        
+    def show_messages(self, name):
+        f = open('accounts/' + name + '/message.txt', 'r')
+        s = f.read().split('\n\n\n')
+        print(s)
         pass
