@@ -4,76 +4,53 @@ import basic as b
 class Account:
     def __init__(self, username, isnew):
         self.name = username
+        self.msg = Msg(username)
+        self.inv = Invite(username)
         if isnew == True:
             self.create()
-        else:
-            self.backup()
-        self.show_dashboard()
+        self.show_menu()
 
-    def create(self):
-        b.os.mkdir('./accounts/' + self.name)
-        b.os.mkdir('./projects/' + self.name)
-        f = open('projects/' + self.name + '/projects_list.json', 'a')
-        f.close()
-        f = open('accounts/' + self.name + '/invitations.txt', 'a')
-        f.close()
-        f = open('accounts/' + self.name + '/message.txt', 'a')
-        f.close()
-
-    def backup(self):
-        pass
-
-    def show_dashboard(self):
-        b.head(self.name)
-        #msg = Msg()
-        #msg.show_messages(self.name)
-        #msg.send_message(self.name)
-        inv = Invite()
-        inv.show_invitation(self.name)
-        """
-                    heading
-        messages   invatations   projects
-        1.......   1..........       
-        2.......   2..........  
-        3.......   3..........
-        4.......   4..........
-        5.......       .
-        6.......       .
-           .           .
-           .       10..........
-           .
-        10......
-        """
-        pass
-
-    def show_invitations(self):
-        
-        pass
-    
-    def send_invatation(self):
-
-        pass
-
-    def show_projects(self):
-        # project -> name -> project list
-        # entekhab
-        # p = p.project(folan)
-        # p.show()
-        pass
-
-    def create_projects(self):
-        self.counter += 1            #name : [path, acess_level]
-        self.projectlist.update({"board" + str(self.counter) : ['projects/' + self.name + '/' + str(b.time.time()), 4]})
-        b.os.mkdir('projects/' + self.name + '/' + str(b.time.time()))
-        #p.Project('projects/' + self.name + '/' + str(b.time.time()))
-        pass
-
+    def show_menu(self):
+        while True:
+            b.head(self.name)
+            b.bold()
+            print("Menu: ")
+            print(" 1. Send message")
+            print(" 2. Show messages")
+            print(" 3. Send invatation")
+            print(" 4. Show invatations")
+            print(" 5. Create a new project")
+            print(" 6. Show projects")
+            print(" 7. Sign out")
+            print ('\n-------------------\nTo choose any item pleas enter its section number and press enter ', end = '')
+            b.bold(False)
+            s = b.getch()
+            if s == '1':
+                self.msg.send_message(self.name)
+            if s == '2':
+                self.msg.show_messages(self.name)
+            if s == '3':
+                self.inv.send_invitation(self.name)
+            if s == '4':
+                self.inv.show_invitation(self.name)
+            if s == '7':
+                b.c_col(31)
+                print("Are you sure you want to sign out? (Y: yes / any other key: no) ", end = '', flush=True)
+                b.c_col(37)
+                ch = b.getch()
+                if ch != 'Y':
+                    continue
+                b.tojson('accounts/saved_login.json', {"user" : "sign in", "time" : 0})
+                return
 class Msg:
-    def send_message(self, name):
+    def __init__(self, name):
+        self.name = name
+
+    def send_message(self):
         b.head()
         b.bold()
         b.start_from(5, 5)
-        print('From: ' + name, end = '')
+        print('From: ' + self.name, end = '')
         b.start_from(6, 5)
         print('To: ', end = '')
         b.start_from(7, 5)
@@ -87,7 +64,7 @@ class Msg:
         to = input()
         b.start_from(7, 15)
         subject = input()
-        self.msg = name + '\n' + to + '\n' + subject
+        self.msg = self.name + '\n' + to + '\n' + subject
         line = 9
         while line < 18:
             b.start_from(line, 2)
@@ -113,12 +90,12 @@ class Msg:
         print('press a key to continue')
         ch = b.getch()
 
-    def show_messages(self, name):
+    def show_messages(self):
         while True:
-            f = open('accounts/' + name + '/message.txt', 'r')
+            f = open('accounts/' + self.name + '/message.txt', 'r')
             s = f.read().split('\n\n\n')
             s = b.reverse(s)
-            b.head(name)
+            b.head(self.name)
             print("To read message you want pleas enter it's crosspending number:")
             str = [''] * len(s)
             for i in range(1, len(s)):
@@ -133,7 +110,7 @@ class Msg:
             if n == -1:
                 return
             else:
-                b.head(name)
+                b.head(self.name)
                 print('Time: ' + str[n][0])
                 print('From: ' + str[n][1])
                 print('Subject: ' + str[n][3])
@@ -146,11 +123,14 @@ class Msg:
                 b.bold(False)
 
 class Invite:
-    def send_invitation(self, name):
+    def __init__(self, name):
+        self.name = name
+
+    def send_invitation(self):
         b.head()
         b.bold()
         b.start_from(5, 5)
-        print('From: ' + name, end = '')
+        print('From: ' + self.name, end = '')
         b.start_from(6, 5)
         print('To: ', end = '')
         b.start_from(7, 5)
@@ -166,7 +146,7 @@ class Invite:
         to = input()
         b.start_from(7, 15)
         subject = input()
-        self.msg = name + '\n' + to + '\n' + subject + '\n'
+        self.msg = self.name + '\n' + to + '\n' + subject + '\n'
         b.start_from(9, 24)
         al = input()
         self.msg += 'Acess level: ' + al
@@ -195,12 +175,12 @@ class Invite:
         print('press a key to continue')
         ch = b.getch()
 
-    def show_invitation(self, name):
+    def show_invitation(self):
         while True:
-            f = open('accounts/' + name + '/invitations.txt', 'r')
+            f = open('accounts/' + self.name + '/invitations.txt', 'r')
             s = f.read().split('\n\n\n')
             s = b.reverse(s)
-            b.head(name)
+            b.head(self.name)
             print("To read invitation you want pleas enter it's crosspending number:")
             str = [''] * len(s)
             for i in range(1, len(s)):
@@ -215,7 +195,7 @@ class Invite:
             if n == -1:
                 return
             else:
-                b.head(name)
+                b.head(self.name)
                 print('Time: ' + str[n][0])
                 print('From: ' + str[n][1])
                 print('Project Name: ' + str[n][3])
