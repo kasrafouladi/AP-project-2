@@ -83,18 +83,25 @@ class Msg:
         subject = input()
         line = 9
         self.msg = ''
+        line_len = 0
         while True:
             b.start_from(line, 5)
             c = b.getch()
-            if ord(c) == 8:
+            if ord(c) == 8 and line_len == 0:
                 self.edit_message(self, line)
                 line -= 1
             else:
-                print(c, end = '')
-            s = input()
-            s = c + s
-            self.msg += s + '\n'
-            line += 1
+                if ord(c) == 8:
+                    print("\b \b", end = '', flush=True)
+                    line_len -= 1
+                else:
+                    if ord(c) != 13:
+                        print(c, end = '', flush=True)
+                        line_len += 1
+                    else:
+                        print(c, end = '', flush=True)
+                        line += 1
+                        line_len = 0
     
     def edit_message(self, line):
         b.start_from(line, 1)
@@ -104,8 +111,8 @@ class Msg:
             try:
                 b.start_from(line, len(s) + 2)
                 eline = input()
-                b.start_from(line, 0)
-                print(' ' * (len(s) + 2 + len(eline)), end = '')
+                b.start_from(line, len(s) + 2)
+                print(' ' * len(eline), end = '', flush=True)
                 b.start_from(int(eline) + 9, 5)
                 break
             except ValueError:
