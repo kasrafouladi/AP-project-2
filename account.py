@@ -1,5 +1,5 @@
 import basic as b
-import project as p   
+import project as p
 
 class Account:
     def __init__(self, username, isnew):
@@ -9,7 +9,8 @@ class Account:
         if isnew == True:
             self.create()
         self.show_menu()
-
+    
+        
     def show_menu(self):
         while True:
             b.head(self.name)
@@ -32,7 +33,9 @@ class Account:
             if s == '3':
                 self.inv.send_invitation(self.name)
             if s == '4':
-                self.inv.show_invitation(self.name)
+                self.inv.show_invitation()
+            if s == '5':
+                self.create_project()
             if s == '7':
                 b.c_col(31)
                 print("Are you sure you want to sign out? (Y: yes / any other key: no) ", end = '', flush=True)
@@ -42,6 +45,11 @@ class Account:
                     continue
                 b.tojson('accounts/saved_login.json', {"user" : "sign in", "time" : 0})
                 return
+            
+    def createe_project(self):
+        project = p(self.name, "", True, [self.name], roles={self.name: 'leader'}, leader=self.name)
+        project.create(self.name, "")
+        
 class Msg:
     def __init__(self, name):
         self.name = name

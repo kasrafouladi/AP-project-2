@@ -18,7 +18,6 @@ class Project:
             self.backup(name, p_address)
     
     def create(self, name, p_address):
-        def create_project(self):
         b.head()
         b.bold()
         print('Create a new project')
