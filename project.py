@@ -2,71 +2,82 @@ import basic as b
 import uuid
 import json
 import table
+import account as a
 
 class Project:
-    def __init__(self, name, address, new, users, id=None, roles=None, leader=None, tasks=None):
-        self.name = name
-        self.address = address
-        self.users = users
-        self.id = id if id else str(uuid.uuid4())  
-        self.roles = roles if roles else {}
-        self.leader = leader
-        self.tasks = tasks if tasks else []
-        
+    def __init__(self, id = "", owner = "", new = False, name = ""):
+        self.owner = owner
         if new:
-            self.create(self, name)
+            self.id = id if id else str(int(b.time.time()))
+            self.create()
         else:
-            self.backup(name, address)
+            self.backup(name, id)
+        self.project_menu()
 
-    def create(self, name):
+    def backup(self, name, id):
+        self.name = name
+        self.id = id
+        print('_' * 40)
+        print('projects/' + self.owner + '/' + self.id + '/colab.json')
+        print('_' * 40)
+        self.colabs = b.todict('projects/' + self.owner + '/' + self.id + '/colab.json')
+        # temp things 
+
+    def create(self):
         b.head()
         b.bold()
         print('Create a new project')
         b.bold(False)
-        name = input('Project name: ')
-        address = 'projects/kasra/' + name
-        leader = self.name
-        address = self.name + '-' + self.id + '.json'
-        id = str(uuid.uuid4())
-        users = [self.name]
-        roles = {self.name: 'leader'}
-        tasks = []
-        project = self.__init__(name, address, True, users, id, roles, leader, tasks)
-        self.save()
-        with open(self.address, "a") as file:
-            file.write(self.address)
+        self.name = input('Project name: ')
+        b.os.mkdir('projects/' + self.owner + '/' + self.id)
+        #fill colab.json 
+        project_colab_path = 'projects/' + self.owner + '/' + self.id + '/colab.json'
+        f = open(project_colab_path, 'a')
+        f.close()
+        self.add_member(self.owner, 4)
+        #fill user projcet list
+        projects_list = b.todict('projects/' + self.owner + '/projects_list.json')
+        projects_list.update({self.name: [self.id, 4, self.owner]})
+        self.colabs = {self.name: [self.id, 4]}
+        b.tojson('projects/' + self.owner + '/projects_list.json', projects_list)
         print('Project created successfully!')
         print('Press any key to continue')
         b.getch()
-
+        
+    def add_member(self, colabname, acess_level):
+        with open('projects/' + self.owner + '/' + self.id + '/colab.json', 'r') as file:
+            colab = b.todict(file)
+            colab.update({colabname : acess_level})
+            file.close()
+            b.tojson('projects/' + self.owner + '/colab.json', colab)
     
-    def show_project():
-        '''
+    def project_menu(slef):
+        while True:
+            b.head()
+            b.bold()
+            print("""
+Project's Items:
+  1. See Collaborators list
+  2. Tasks Table
+  3. Back
+Enter a number: 
+                  """)
+            x = input()
+            if x == '1':
+                self.show_colabs()
+            elif x == '2':
+                pass
+            elif x == '3':
+                break
+        b.bold(False)
+    
+    def show_colabs(self):
         b.head()
-        b.bold()
-        with open()
-        table.main_menu()
-        '''
-        pass
-        
-        
-        
-        
-    def backup(self, name, p_address):
-        pass
-    
-    def save(self , address):
-        b.tojson(address, self.__dict__)
-        
-    def addTask(self, task):
-        self.tasks.append(task)
-        self.save()
-    
-    def addUser(self, user, role):
-        self.users.append(user)
-        self.roles[user] = role
-        self.save()
-
+        print(self.name + "'s Collaborators:")
+        for colab in self.colabs:
+            print(" " + colab + ", Access level: " + str(self.colabs[colab]))
+        print("press any key to continue")
+        b.getch()
 
 class Task:
     def __init__(self, name, id, author, sdate, edate, priority, status):

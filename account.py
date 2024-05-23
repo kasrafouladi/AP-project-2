@@ -1,5 +1,6 @@
 import basic as b
 import project as p
+import table 
 
 class Account:
     def __init__(self, username, isnew):
@@ -27,15 +28,17 @@ class Account:
             b.bold(False)
             s = b.getch()
             if s == '1':
-                self.msg.send_message(self.name)
+                self.msg.send_message()
             if s == '2':
-                self.msg.show_messages(self.name)
+                self.msg.show_messages()
             if s == '3':
-                self.inv.send_invitation(self.name)
+                self.inv.send_invitation()
             if s == '4':
                 self.inv.show_invitation()
             if s == '5':
                 self.create_project()
+            if s == '6':
+                self.show_projects()
             if s == '7':
                 b.c_col(31)
                 print("Are you sure you want to sign out? (Y: yes / any other key: no) ", end = '', flush=True)
@@ -47,8 +50,25 @@ class Account:
                 return
             
     def create_project(self):
-        project = p.Project(self.name, "", True, [self.name], roles={self.name: 'leader'}, leader=self.name)
-        project.create(self.name, "")
+        project = p.Project(owner = self.name, new = True)
+        
+    def show_projects(self):
+        projects = b.todict('projects/' + self.name + '/projects_list.json')
+        names = [project for project in projects]
+        while True:
+            b.head(self.name)
+            b.bold()
+            i = 1
+            for project in projects:    
+                print(' ' + str(i) + '. ' + project)
+                i += 1
+            print('-' * 50)
+            print('To choose the project you want enter its crosspending number(to back into menu enter -1)')
+            x = int(input())
+            if x == -1:
+                return
+            p.Project(id = projects[names[x - 1]][0], owner = projects[names[x - 1]][2], name = names[x - 1], new = False)
+            
         
 class Msg:
     def __init__(self, name):

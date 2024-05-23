@@ -19,9 +19,12 @@ def hash(s1):
     return res
 
 def todict(file_name):
-    with open(file_name, "r") as json_file:
-        my_dictionary = json.load(json_file)
-    return my_dictionary
+    try:
+        with open(file_name, "r") as json_file:
+            my_dictionary = json.load(json_file)
+        return my_dictionary
+    except TypeError:
+        return {}
 
 def tojson(address, my_dict):
     json_file =  open(address, "w")
