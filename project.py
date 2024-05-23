@@ -18,7 +18,23 @@ class Project:
             self.backup(name, p_address)
     
     def create(self, name, p_address):
+        def create_project(self):
+        b.head()
+        b.bold()
+        print('Create a new project')
+        b.bold(False)
+        name = input('Project name: ')
+        address = input('Project address: ')
+        leader = self.name
+        id = str(uuid.uuid4())
+        users = [self.name]
+        roles = {self.name: 'leader'}
+        tasks = []
+        project = self.Project(name, address, True, users, id, roles, leader, tasks)
         self.save()
+        print('Project created successfully!')
+        print('Press any key to continue')
+        b.getch()
     
     def backup(self, name, p_address):
         pass
