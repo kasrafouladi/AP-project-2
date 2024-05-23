@@ -46,8 +46,8 @@ class Account:
                 b.tojson('accounts/saved_login.json', {"user" : "sign in", "time" : 0})
                 return
             
-    def createe_project(self):
-        project = p(self.name, "", True, [self.name], roles={self.name: 'leader'}, leader=self.name)
+    def create_project(self):
+        project = p.Project(self.name, "", True, [self.name], roles={self.name: 'leader'}, leader=self.name)
         project.create(self.name, "")
         
 class Msg:
