@@ -24,14 +24,14 @@ class Project:
         print('Create a new project')
         b.bold(False)
         name = input('Project name: ')
+        address = 'projects/kasra/' + name
         leader = self.name
         address = self.name + '-' + self.id + '.json'
         id = str(uuid.uuid4())
         users = [self.name]
         roles = {self.name: 'leader'}
         tasks = []
-
-        project = self.Project(name, True, users, id, roles, leader, tasks)
+        project = self.__init__(name, address, True, users, id, roles, leader, tasks)
         self.save()
         with open(self.address, "a") as file:
             file.write(self.address)
@@ -47,7 +47,7 @@ class Project:
         with open()
         table.main_menu()
         '''
-        
+        pass
         
         
         
