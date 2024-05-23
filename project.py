@@ -1,40 +1,85 @@
 import basic as b
-'''
+import uuid
+import json
+
 class Project:
-    def __init__(self, name, p_addres, new):
-        if new == True:
-            self.create(name, p_addres)
+    def __init__(self, name, p_address, new, users, id=None, roles=None, leader=None, tasks=None):
+        self.name = name
+        self.p_address = p_address
+        self.users = users
+        self.id = id if id else str(uuid.uuid4())  
+        self.roles = roles if roles else {}
+        self.leader = leader
+        self.tasks = tasks if tasks else []
+        
+        if new:
+            self.create(name, p_address)
         else:
-            self.backup(name, p_addres)
+            self.backup(name, p_address)
+    
+    def create(self, name, p_address):
+        self.save()
+    
+    def backup(self, name, p_address):
         pass
     
-    def create(self, name, p_addres):
+    def save(self):
+        temp = self.name + '-' + self.id + '.json'
+        address = self.p_address + temp 
+        b.tojson(address, self.__dict__)
         
-        pass
-'''    
+    def addTask(self, task):
+        self.tasks.append(task)
+        self.save()
     
-def upload(s):
-    file = open('table.txt', 'w')
-    file.write(s)
+    def addUser(self, user, role):
+        self.users.append(user)
+        self.roles[user] = role
+        self.save()
 
-def download():
-    file = open('table.txt', 'r')
-    return file.read()
 
-def main():
-    while True:
-        b.head()
-        upload("")
-        cor = input().split()
-        b.start_from(cor[0], cor[1])
-        print('press a key to upload it into  system')
-        b.getch()
-        b.head()
-        print('press a key to dowload it rom system')
-        b.getch()
-        b.head()
-        s = download()
-        print(s)
+class Task:
+    def __init__(self, name, id, author, sdate, edate, priority, status):
+        self.name = name
+        self.id = id
+        self.author = author
+        self.sdate = sdate
+        self.edate = edate
+        self.priority = priority
+        self.status = status
         
-if __name__ == '__main__'
-    main()
+        self.comments = []
+        self.assignees = []
+        self.history = []
+
+    def setStartDate(self, sdate):
+        self.addToHistory()
+        self.sdate = sdate
+
+    def addToHistory(self):
+        self.history.append({
+            'name': self.name,
+            'id': self.id,
+            'author': self.author,
+            'sdate': self.sdate,
+            'edate': self.edate,
+            'priority': self.priority,
+            'status': self.status,
+            'comments': self.comments[:],
+            'assignees': self.assignees[:]
+        })
+
+    def addComment(self, comment):
+        self.addToHistory()
+        self.comments.append(comment)
+
+    def assignUser(self, user):
+        self.assignees.append(user)
+        self.addToHistory()
+
+
+class Comment:
+    def __init__(self, author, date, message):
+        self.author = author
+        self.date = date
+        self.message = message

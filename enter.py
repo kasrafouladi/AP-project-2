@@ -105,7 +105,7 @@ class Enter:
         ok = True
         if len(username) == 0:
             b.start_from(8, 54)
-            print("Username's lenght can't be 0", end = "")
+            print("Username's length can't be 0", end = "")
             ok = ok and False
         else:
             b.start_from(8, 54)
@@ -113,7 +113,7 @@ class Enter:
 
         if len(password) == 0:
             b.start_from(10, 54)
-            print("Passwords's lenght can't be 0", end = "")
+            print("Password's length can't be 0", end = "")
             ok = False
         else:
             b.start_from(10, 54)
@@ -129,7 +129,7 @@ class Enter:
 
         if password != confirmpassword:
             b.start_from(12, 54)
-            print("Passwords aren't match", end = "")
+            print("Passwords do not match", end = "")
             ok = False
         else:
             b.start_from(12, 54)
