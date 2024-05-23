@@ -1,11 +1,12 @@
 import basic as b
 import uuid
 import json
+import table
 
 class Project:
-    def __init__(self, name, p_address, new, users, id=None, roles=None, leader=None, tasks=None):
+    def __init__(self, name, address, new, users, id=None, roles=None, leader=None, tasks=None):
         self.name = name
-        self.p_address = p_address
+        self.address = address
         self.users = users
         self.id = id if id else str(uuid.uuid4())  
         self.roles = roles if roles else {}
@@ -13,34 +14,48 @@ class Project:
         self.tasks = tasks if tasks else []
         
         if new:
-            self.create(name, p_address)
+            self.create(self, name)
         else:
-            self.backup(name, p_address)
-    
-    def create(self, name, p_address):
+            self.backup(name, address)
+
+    def create(self, name):
         b.head()
         b.bold()
         print('Create a new project')
         b.bold(False)
         name = input('Project name: ')
-        address = input('Project address: ')
         leader = self.name
+        address = self.name + '-' + self.id + '.json'
         id = str(uuid.uuid4())
         users = [self.name]
         roles = {self.name: 'leader'}
         tasks = []
-        project = self.Project(name, address, True, users, id, roles, leader, tasks)
+
+        project = self.Project(name, True, users, id, roles, leader, tasks)
         self.save()
+        with open(self.address, "a") as file:
+            file.write(self.address)
         print('Project created successfully!')
         print('Press any key to continue')
         b.getch()
+
     
+    def show_project():
+        '''
+        b.head()
+        b.bold()
+        with open()
+        table.main_menu()
+        '''
+        
+        
+        
+        
+        
     def backup(self, name, p_address):
         pass
     
-    def save(self):
-        temp = self.name + '-' + self.id + '.json'
-        address = self.p_address + temp 
+    def save(self , address):
         b.tojson(address, self.__dict__)
         
     def addTask(self, task):

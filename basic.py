@@ -37,7 +37,7 @@ def bold(on = True):
         print('\033[0m')
 
 def c_col(x):
-    s = '\033[' + str(x) + 'm';
+    s = '\033[' + str(x) + 'm'
     print(s, end = '')
 
 def getch():
@@ -90,6 +90,7 @@ def getpsw(x, y):
 
 def reverse(s):
     return s[::-1]
+
 
 def main():
     #print(hash('fouladi'))
