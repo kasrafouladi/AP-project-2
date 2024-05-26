@@ -68,6 +68,10 @@ class Account:
             if x == -1:
                 return
             p.Project(id = projects[names[x - 1]][0], owner = projects[names[x - 1]][2], name = names[x - 1], new = False)
+            #tableview = open('projects/' + self.owner + '/' + self.id + '/' + self.name + ".txt", "r", encoding="utf-8")
+            
+            
+            
             
         
 class Msg:
