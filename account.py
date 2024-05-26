@@ -11,6 +11,16 @@ class Account:
             self.create()
         self.show_menu()
     
+    
+    def create(self):
+        b.os.mkdir('./accounts/' + self.name)
+        b.os.mkdir('./projects/' + self.name)
+        f = open('projects/' + self.name + '/projects_list.json', 'a')
+        f.close()
+        f = open('accounts/' + self.name + '/invitations.txt', 'a')
+        f.close()
+        f = open('accounts/' + self.name + '/message.txt', 'a')
+        f.close()
         
     def show_menu(self):
         while True:
@@ -173,6 +183,8 @@ class Invite:
         print('-------------------------\nHere you can write description if you want if you dont want just press enter twice', end = '')
         b.start_from(9, 2)
         print('Acess level(1/2/3/4): ', end = '')
+        b.start_from(10, 2)
+        print('Project id: ', end = '')
         b.bold(False)
         b.start_from(6, 10)
         to = input()
@@ -182,7 +194,11 @@ class Invite:
         b.start_from(9, 24)
         al = input()
         self.msg += 'Acess level: ' + al
-        line = 10
+        self.msg += '\n' + 'N' + '\n'
+        b.start_from(10, 24)
+        id = input()
+        self.msg += id
+        line = 11
         while line < 18:
             b.start_from(line, 2)
             s = input()
@@ -197,6 +213,8 @@ class Invite:
         ch = b.getch()
         if b.os.path.exists('accounts/' + to + '/') == False:
             print('there is no such user')
+            print('press a key to continue')
+            ch = b.getch()
             return
         else:
             now = b.time.ctime()
@@ -217,11 +235,16 @@ class Invite:
             str = [''] * len(s)
             for i in range(1, len(s)):
                 str[i] = s[i].split('\n')
+                if str[i][4] == 'd':
+                    b.c_col(31)
+                elif str[i][4] == 'a':
+                    b.c_col(32)
                 print(i,  end = '')
                 print('. ', end = '')
                 print(str[i][0], end = ', ')
                 print(str[i][1], end = ', ')
                 print(str[i][2])
+                b.c_col(37)
             print('-------------------\nenter -1 to back into menu')
             n = int(input())
             if n == -1:
@@ -230,16 +253,26 @@ class Invite:
                 b.head(self.name)
                 print('Time: ' + str[n][0])
                 print('From: ' + str[n][1])
-                print('Project Name: ' + str[n][3])
+                print('Subject: ' + str[n][3])
                 print('_' * 40)
-                for i in range(4, len(str[n])):
+                for i in range(6, len(str[n])):
                     print(' ' + str[n][i])
                 b.bold()
                 print('----------\na: accept, d: decline, exit: e')
-                ch = b.getch()
-                if ch != 'e':
-                    if ch == 'a':
-                        pass
-                    else:
-                        pass
+                if str[n][5] == 'N':
+                    ch = b.getch()
+                    if ch != 'e':
+                        if ch == 'a':
+                            str[n][5] = 'a'
+                            lst_colab = b.todict('projects/' + str[n][1] + '/' + str[n][6] + '/colab.json')
+                            lst_colab.update({self.name : [str[n][6], int(str[n][5])]})
+                            b.tojson('projects/' + str[n][1] + '/' + str[n][6] + '/colab.json', lst_colab)
+                        else:
+                            str[n][5] = 'd'
+                if str[n][5] == 'a':
+                    print("accepted")
+                if str[n][5] == 'd':
+                    print("declined")
                 b.bold(False)
+                print('press any key to continue')
+                b.getch()
