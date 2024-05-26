@@ -1,5 +1,3 @@
-#cd C:\Users\Lenovo\OneDrive\Desktop\AP-project-2
-
 import subprocess
 import os
 import msvcrt
