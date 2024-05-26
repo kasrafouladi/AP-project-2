@@ -7,6 +7,7 @@ class Enter:
     def ent(self):
         sl = b.todict('accounts/saved_login.json')
         if b.time.time() - sl["time"] <= 7 * 24 * 60 * 60:
+            b.user_handle = sl["user"]
             acc.Account(sl["user"], False)
         else:
             b.tojson('accounts/saved_login.json', {"user": "sign in", "time": 0})
@@ -38,6 +39,7 @@ class Enter:
                 c = b.getch()
                 if c == 'Y':
                     b.tojson('accounts/saved_login.json', {"user": username, "time": b.time.time()})
+                b.user_handle = username
                 acc.Account(username, False)
                 return
             b.start_from(7, 54)
@@ -90,6 +92,7 @@ class Enter:
                 userslist = b.todict('accounts/users.json')
                 userslist.update({username: b.hash(password)})
                 b.tojson('accounts/users.json', userslist)
+                b.user_handle = username
                 acc.Account(username, True)
                 return
             b.start_from(7, 54)
