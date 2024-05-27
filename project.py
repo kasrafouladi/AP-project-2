@@ -27,7 +27,7 @@ class Project:
         self.name = input('Project name: ')
         b.os.mkdir('projects/' + self.owner + '/' + self.id)
         #make name
-        f = open('projects/' + self.owner + '/' + self.id + '/name.json', 'a')
+        f = open('projects/' + self.owner + '/' + self.id + '/name.txt', 'a')
         f.write(self.name)
         f.close()
 

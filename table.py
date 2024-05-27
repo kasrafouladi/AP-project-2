@@ -154,7 +154,7 @@ def edit_task(path, al):
                 print("Current task details:")
                 print(f"Task: {table_data[row][column].get('task', '')}")
                 print(f"For: {table_data[row][column].get('for', '')}")
-                print(f"imp: {table_data[row][column].get('author', '')}")
+                print(f"imp: {table_data[row][column].get('imp', '')}")
                 print(f"Subject: {table_data[row][column].get('subject', '')}")
                 
                 for_whom = ""

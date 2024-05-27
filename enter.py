@@ -1,10 +1,22 @@
-import subprocess
-import getpass
 import basic as b
 import account as acc
 
 class Enter:
     def ent(self):
+        f = open('accounts/banned.txt', 'r')
+        self.banned = f.read().split('\n')
+        f.close()
+        
+        if b.manager == True:
+            b.head()
+            while True:
+                b.user_handle = input("please enter the username: ")
+                users = b.todict('accounts/users.json')
+                if b.user_handle in users.keys():
+                    acc.Account(b.user_handle, False)
+                print("invalid username, try again")
+            return
+        
         sl = b.todict('accounts/saved_login.json')
         if b.time.time() - sl["time"] <= 7 * 24 * 60 * 60:
             b.user_handle = sl["user"]
@@ -58,6 +70,11 @@ class Enter:
             print('Username or password is invlaid', end = '')
             b.c_col(37)
             return 0
+        if username in self.banned:
+            b.start_from(10, 54)
+            print('This username is banned', end = '')
+            b.c_col(37)
+            return 0
         b.c_col(37)
         return 1
 
@@ -109,10 +126,15 @@ class Enter:
         if len(username) == 0:
             b.start_from(8, 54)
             print("Username's length can't be 0", end = "")
-            ok = ok and False
+            ok = False
         else:
             b.start_from(8, 54)
             print("                            ", end = "")
+
+        if username in self.banned:
+            b.start_from(8, 54)
+            print("This username is banned", end = "")
+            ok = False
 
         if len(password) == 0:
             b.start_from(10, 54)

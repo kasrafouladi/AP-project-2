@@ -6,6 +6,8 @@ import msvcrt
 
 user_handle = ""
 
+manager = False
+
 def hash(s1):
     bs = [259, 258, 257, 256, 263]
     md = [1000000021, 1000000009, 1000000007, 998244353, 2000000011]
