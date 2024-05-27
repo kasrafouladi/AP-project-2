@@ -13,6 +13,7 @@ def main():
         print(" 3. recover the username")
         print(" 4. change a user's password")
         print(" 5. exit")
+        print(" 6. reset facotry")
         enter.b.bold(False)
         x = input()
         if x == '1':
@@ -54,6 +55,33 @@ def main():
         if x == '5':
             print('Exitting..')
             break
+
+        if x == '6':
+            enter.b.c_col(31)
+            print("Do you really want to reset any thing? (Y: yes/any other key: no)")
+            enter.b.c_col(37)
+            c = enter.b.getch()
+            if c != 'Y':
+                continue
+            #enter.b.os.rmdir('accounts/')
+            #enter.b.os.rmdir('projects/')
+            import shutil
+
+            #shutil.rmtree('accounts/')
+            shutil.rmtree('projects/')
+            enter.b.os.mkdir('accounts')
+            enter.b.os.mkdir('projects')
+            
+            f = open("accounts/banned.txt", "a")
+            f.close()
+
+            f = open("accounts/users.json", "a")
+            f.write("{ }")
+            f.close()
+
+            f = open("accounts/saved_login.json", "a")
+            f.write("{\"user\": \"sign in\", \"time\": 0}")
+            f.close()
 
 if __name__ == '__main__':
     main()
