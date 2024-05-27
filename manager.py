@@ -14,6 +14,7 @@ def main():
         print(" 4. change a user's password")
         print(" 5. exit")
         print(" 6. reset facotry")
+        print(" 7. show log")
         enter.b.bold(False)
         x = input()
         if x == '1':
@@ -74,7 +75,11 @@ def main():
             f = open("accounts/banned.txt", "a")
             f.write("\n")
             f.close()
-
+            
+            f = open("accounts/log.txt", "a")
+            f.write("\n")
+            f.close()
+            
             f = open("accounts/users.json", "a")
             f.write("{ }")
             f.close()
@@ -82,6 +87,15 @@ def main():
             f = open("accounts/saved_login.json", "a")
             f.write("{\"user\": \"sign in\", \"time\": 0}")
             f.close()
+            
+        if x == '7':
+            enter.b.head()
+            f = open("accounts/log.txt", "r")
+            s = f.read()
+            print("Here you can see log:\n" + s)
+            f.close()
+            print("press any key to continue")
+            enter.b.getch()
 
 if __name__ == '__main__':
     main()
