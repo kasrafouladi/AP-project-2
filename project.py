@@ -1,7 +1,4 @@
 import basic as b
-import uuid
-import json
-import table
 import account as a
 
 class Project:
@@ -19,15 +16,7 @@ class Project:
         self.name = name
         self.id = id
         self.colabs = b.todict('projects/' + self.owner + '/' + self.id + '/colab.json')
-        # temp things 
-                # باز کردن فایل در حالت خواندن
-        with open('projects/' + self.owner + '/' + self.id + '/' + self.name + ".txt", "r", encoding="utf-8") as file:
-            # خواندن محتوای فایل
-            self.table = file.read()
-        self.colabs = b.todict('projects/' + self.owner + '/' + self.id + '/colab.json')
-        # نمایش محتوای فایل
-        print(table)
-    
+        pass   
 
     def create(self):
         b.head()
@@ -48,8 +37,7 @@ class Project:
         b.tojson('projects/' + self.owner + '/' + self.id + '/colab.json', self.colabs)
         b.tojson('projects/' + self.owner + '/projects_list.json', projects_list)
         
-        with open('projects/' + self.owner + '/' + self.id + '/' + self.name + ".txt", "w", encoding="utf-8") as file:
-                file.write(table.tabulate(table.table_data, headers="firstrow", tablefmt='fancy_grid'))
+        #somthing
         
         print('Project created successfully!')
         print('Press any key to continue')

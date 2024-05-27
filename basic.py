@@ -4,6 +4,8 @@ import time
 import subprocess
 import msvcrt
 
+user_handle = ""
+
 def hash(s1):
     bs = [259, 258, 257, 256, 263]
     md = [1000000021, 1000000009, 1000000007, 998244353, 2000000011]
@@ -46,7 +48,7 @@ def c_col(x):
 def getch():
     return msvcrt.getch().decode()
 
-def head(user = ''):
+def head():
     os.system('cls')
     bold()
     c_col(33)
@@ -54,9 +56,9 @@ def head(user = ''):
     c_col(32)
     print('Local time: ' + time.ctime())
     c_col(37)
-    if len(user) != 0:
+    if user_handle:
         c_col(35)
-        print('~ ' + user)
+        print('~ ' + user_handle)
         c_col(37)
     print('_' * 120)
     bold(False)

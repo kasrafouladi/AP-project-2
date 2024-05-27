@@ -1,6 +1,5 @@
 import basic as b
 import project as p
-import table 
 
 class Account:
     def __init__(self, username, isnew):
@@ -20,10 +19,12 @@ class Account:
         f.close()
         f = open('accounts/' + self.name + '/message.txt', 'a')
         f.close()
+        f = open('accounts/' + self.name + '/r_inv.txt', 'a')
+        f.close()
         
     def show_menu(self):
         while True:
-            b.head(self.name)
+            b.head()
             b.bold()
             print("Menu: ")
             print(" 1. Send message")
@@ -56,6 +57,7 @@ class Account:
                 if ch != 'Y':
                     continue
                 b.tojson('accounts/saved_login.json', {"user" : "sign in", "time" : 0})
+                b.user_handel = ""
                 return
             
     def create_project(self):
@@ -65,7 +67,7 @@ class Account:
         projects = b.todict('projects/' + self.name + '/projects_list.json')
         names = [project for project in projects]
         while True:
-            b.head(self.name)
+            b.head()
             b.bold()
             i = 1
             for project in projects:    
@@ -133,7 +135,7 @@ class Msg:
             f = open('accounts/' + self.name + '/message.txt', 'r')
             s = f.read().split('\n\n\n')
             s = b.reverse(s)
-            b.head(self.name)
+            b.head()
             print("To read message you want pleas enter it's crosspending number:")
             str = [''] * len(s)
             for i in range(1, len(s)):
@@ -148,7 +150,7 @@ class Msg:
             if n == -1:
                 return
             else:
-                b.head(self.name)
+                b.head()
                 print('Time: ' + str[n][0])
                 print('From: ' + str[n][1])
                 print('Subject: ' + str[n][3])
@@ -188,12 +190,17 @@ class Invite:
         subject = input()
         self.msg = self.name + '\n' + to + '\n' + subject + '\n'
         b.start_from(9, 24)
+        
         al = input()
-        self.msg += 'Acess level: ' + al
-        self.msg += '\n' + 'N' + '\n'
+        valid = ['2', '2', '3', '4']
+        if al in valid:
+            self.msg += al
+        else:
+            self.msg += '1'
+
         b.start_from(10, 24)
         id = input()
-        self.msg += id
+        self.msg += '\n' + id
         line = 11
         while line < 18:
             b.start_from(line, 2)
@@ -212,10 +219,18 @@ class Invite:
             print('press a key to continue')
             ch = b.getch()
             return
+        elif b.os.path.exists('projects/' + self.name + '/' + id + '/') == False:
+            print('you are not the owner of this project')
+            print('press a key to continue')
+            ch = b.getch()
+            return
         else:
             now = b.time.ctime()
             f = open('accounts/' + to + '/invitations.txt', 'a')
             f.write(now + '\n' + self.msg + "\n\n\n")
+            f.close()
+            f = open('accounts/' + to + '/r_inv.txt', 'a')
+            f.write('N' + '\n')
             f.close()
             print('sent')
         print('press a key to continue')
@@ -223,17 +238,26 @@ class Invite:
 
     def show_invitation(self):
         while True:
+            b.head()
+            
             f = open('accounts/' + self.name + '/invitations.txt', 'r')
             s = f.read().split('\n\n\n')
             s = b.reverse(s)
-            b.head(self.name)
+            f.close()
+
+            f = open('accounts/' + self.name + '/r_inv.txt', 'r')
+            str1 = f.read().split('\n')
+            str1 = b.reverse(str1)
+            f.close()
+            
             print("To read invitation you want pleas enter it's crosspending number:")
             str = [''] * len(s)
+ 
             for i in range(1, len(s)):
                 str[i] = s[i].split('\n')
-                if str[i][4] == 'd':
+                if str1[i] == 'd':
                     b.c_col(31)
-                elif str[i][4] == 'a':
+                elif str1[i] == 'a':
                     b.c_col(32)
                 print(i,  end = '')
                 print('. ', end = '')
@@ -242,33 +266,49 @@ class Invite:
                 print(str[i][2])
                 b.c_col(37)
             print('-------------------\nenter -1 to back into menu')
+            
             n = int(input())
             if n == -1:
                 return
             else:
-                b.head(self.name)
+                b.head()
                 print('Time: ' + str[n][0])
                 print('From: ' + str[n][1])
                 print('Subject: ' + str[n][3])
                 print('_' * 40)
+                print(' Acess level: ' + str[n][4])
                 for i in range(6, len(str[n])):
                     print(' ' + str[n][i])
                 b.bold()
                 print('----------\na: accept, d: decline, exit: e')
-                if str[n][5] == 'N':
+                if str1[n] == 'N':
                     ch = b.getch()
                     if ch != 'e':
                         if ch == 'a':
-                            str[n][5] = 'a'
-                            lst_colab = b.todict('projects/' + str[n][1] + '/' + str[n][6] + '/colab.json')
-                            lst_colab.update({self.name : [str[n][6], int(str[n][5])]})
-                            b.tojson('projects/' + str[n][1] + '/' + str[n][6] + '/colab.json', lst_colab)
+                            str1[n] = 'a'
                         else:
-                            str[n][5] = 'd'
-                if str[n][5] == 'a':
+                            str1[n] = 'd'
+                if str1[n] == 'a':
+                    #add to colab
+                    mydict = b.todict('projects/' + str[n][1] + '/' + str[n][5] + '/colab.json')
+                    mydict.update({self.name : [str[n][5], str[n][4]]})
+                    b.tojson('projects/' + str[n][1] + '/' + str[n][5] + '/colab.json', mydict)
+                    #add to list
+                    mydict = b.todict('projects/' + self.name + '/projects_list.json')
+                    mydict.update({self.name : [str[n][5], str[n][4], str[n][1]]})
+                    b.tojson('projects/' + self.name + '/projects_list.json', mydict)
+
                     print("accepted")
-                if str[n][5] == 'd':
+                
+                if str1[n] == 'd':
                     print("declined")
+                #update r_inv
+                f = open('accounts/' + self.name + '/r_inv.txt', 'w')
+                str1 = b.reverse(str1)
+                for i in range(n - 1):
+                    f.write(str1[i] + '\n')
+                f.close()
+
                 b.bold(False)
                 print('press any key to continue')
                 b.getch()
