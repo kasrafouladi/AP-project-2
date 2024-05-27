@@ -4,6 +4,7 @@ def main():
     enter.b.start()
     enter.b.manager = True
     e = enter.Enter()
+    
     while True:
         enter.b.head()
         enter.b.bold()
@@ -17,8 +18,10 @@ def main():
         print(" 7. show log")
         enter.b.bold(False)
         x = input()
+        
         if x == '1':
             e.ent()
+            
         if x == '2':
             f = open('accounts/banned.txt', 'a')
             enter.b.head()
@@ -28,6 +31,7 @@ def main():
             f.close()
             print("press any key")
             enter.b.getch()
+            
         if x == '3':
             print("Recover a user")
             s = input("Here you can write the username you want: ")
@@ -41,6 +45,7 @@ def main():
             f.close()
             print("press any key")
             enter.b.getch()
+            
         if x == '4':
             mydict = enter.b.todict('accounts/users.json')
             enter.b.head()
@@ -54,6 +59,7 @@ def main():
                 enter.b.tojson('accounts/users.json', mydict)
             print("press any key")
             enter.b.getch()
+            
         if x == '5':
             print('Exitting..')
             break
