@@ -1,6 +1,6 @@
 import basic as b
 import account as a
-import temp
+import table
 
 class Project:
     def __init__(self, id = "", owner = "", new = False, name = ""):
@@ -53,6 +53,21 @@ class Project:
         #somthing
         self.colabs = b.todict('projects/' + self.owner + '/' + self.id + '/colab.json')
         
+        b.os.mkdir('projects/' + self.owner + '/' + self.id + '/table/')
+        f = open('projects/' + self.owner + '/' + self.id + '/table/history.txt', 'a')
+        f.close()
+        
+        f = open('projects/' + self.owner + '/' + self.id + '/table/table.txt', 'a')
+        f.write('\tbacklog\ttodo\tdoing\tdone\tarchived\n')
+        for i in range(1, 11):
+            f.write(str(i) + '\t' * 4 + '\n')
+        f.close()
+
+        for i in range(1, 11):
+            for j in range(1, 6):
+                f = open('projects/' + self.owner + '/' + self.id + '/table/' + str(i) + '-' + str(j) + '.txt', 'a')
+                f.close()
+
         print('Project created successfully!')
         print('Press any key to continue')
         b.getch()
@@ -63,20 +78,47 @@ class Project:
         while True:
             b.head()
             b.bold()
-            print("Projects name" + self.name + ", Owner: " + self.owner)
+            print("Projects name: " + self.name + ", Owner: " + self.owner)
             print("""
 Project's Items:
   1. See Collaborators list
   2. Tasks Table
   3. Back
+  4. Leave
+  5. Kick Someone
 Enter a number: """)
             x = input()
             if x == '1':
                 self.show_colabs()
             elif x == '2':
                 self.show_table()
+            elif x == '4':
+                del self.colabs[b.user_handle]
+                b.tojson('projects/' + self.owner + '/' + self.id + '/colab.json', self.colabs)
+                
+                mydict = b.todict('projects/' + b.user_handle + '/projects_list.json')
+                del mydict[self.name]
+                b.tojson('projects/' + b.user_handle + '/projects_list.json', mydict)
+
+                break
             elif x == '3':
                 break
+            elif x == '5':
+                if b.user_handle != self.owner:
+                    print("only owner can kick someone")
+                    b.getch()
+                else:
+                    b.bold(False)
+                    handle = input("please enter the username of the collaborator: ")
+                    if handle not in self.colabs.keys():
+                        print("there is no such user in this project, press any key to continue")
+                        b.getch()
+
+                    del self.colabs[handle]
+                    b.tojson('projects/' + self.owner + '/' + self.id + '/colab.json', self.colabs)
+                    mydict = b.todict('projects/' + handle + '/projects_list.json')
+                    del mydict[self.name]
+                    b.tojson('projects/' + handle + '/projects_list.json', mydict)
         b.bold(False)        
     
     def show_colabs(self):
@@ -87,5 +129,5 @@ Enter a number: """)
         print("press any key to continue")
         b.getch()
         
-    def show_table():
-        pass
+    def show_table(self):
+        table.main_menu('projects/' + self.owner + '/' + self.id + '/table/', self.colabs[b.user_handle][1])

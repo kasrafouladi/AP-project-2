@@ -243,5 +243,6 @@ def main_menu(path, al):
         else:
             print("Invalid choice. Please select a valid option.")
 
-b.user_handle = 'kasra'
-main_menu("a/", 5)
+if __name__ == '__main__':
+    b.user_handle = 'kasra'
+    main_menu("a/", 5)

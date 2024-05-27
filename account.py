@@ -82,9 +82,9 @@ class Account:
         project = p.Project(owner = self.name, new = True)
         
     def show_projects(self):
-        projects = b.todict('projects/' + self.name + '/projects_list.json')
-        names = [project for project in projects]
         while True:
+            projects = b.todict('projects/' + self.name + '/projects_list.json')
+            names = [project for project in projects]
             b.head()
             b.bold()
             i = 1
