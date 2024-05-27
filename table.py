@@ -144,6 +144,31 @@ def add_task(path):
 
 #####################################################################################################
 
+def add_comment(path):
+    b.head()
+    s = input("to see the comments for a task please enter the tasks coordinate in table like this: x-y or enter -1 for back\n")
+    if s == '-1':
+        return
+    b.head()
+    f = open(path + s + '.txt', 'r')
+    b.bold()
+    print("Here you can read the comments about this task:\n\n")
+    b.bold(False)
+    print(f.read())
+    f.close()
+    comm = input("share your comment(or just press enter): ")
+    if not comm:
+        return
+    f = open(path + s + '.txt', 'a')
+    f.write('_' * 40 + "\nTime: " + b.time.ctime() + '\n')
+    f.write(b.user_handle + ": " + comm + '\n')
+    f.close()
+    
+
+    print("press any key to continue")
+    b.getch()
+
+
 def edit_task(path, al):
     try:
         row = int(input("Enter the row number of the task to edit (1-10): "))
@@ -193,30 +218,6 @@ def edit_task(path, al):
 
     except ValueError:
         print("Invalid input. Please enter valid row and column numbers.")
-
-def add_comment(path):
-    b.head()
-    s = input("to see the comments for a task please enter the tasks coordinate in table like this: x-y or enter -1 for back\n")
-    if s == '-1':
-        return
-    b.head()
-    f = open(path + s + '.txt', 'r')
-    b.bold()
-    print("Here you can read the comments about this task:\n\n")
-    b.bold(False)
-    print(f.read())
-    f.close()
-    comm = input("share your comment(or just press enter): ")
-    if not comm:
-        return
-    f = open(path + s + '.txt', 'a')
-    f.write('_' * 40 + "\nTime: " + b.time.ctime() + '\n')
-    f.write(b.user_handle + ": " + comm + '\n')
-    f.close()
-    
-
-    print("press any key to continue")
-    b.getch()
 
 def main_menu(path, al):
     load_table(path + 'table.txt')

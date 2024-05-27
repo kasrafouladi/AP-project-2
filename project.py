@@ -18,74 +18,6 @@ class Project:
         self.id = id
         self.colabs = b.todict('projects/' + self.owner + '/' + self.id + '/colab.json')
         pass   
-
-    def create(self):
-        b.head()
-        b.bold()
-        print('Create a new project')
-        b.bold(False)
-        self.name = input('Project name: ')
-        b.os.mkdir('projects/' + self.owner + '/' + self.id)
-        #make name
-        f = open('projects/' + self.owner + '/' + self.id + '/name.txt', 'a')
-        f.write(self.name)
-        f.close()
-
-        #make colab.json
-        f = open('projects/' + self.owner + '/' + self.id + '/colab.json', 'a')
-        f.write("{ }")
-        f.close()
-
-        #make log
-        f = open('projects/' + self.owner + '/' + self.id + "/log.txt", "a")
-        f.write("\n---------------\n")
-        f.write(b.time.ctime() + "\n")
-        f.write("Project created by " + self.owner + "\n")
-        f.close()
-
-        mydict = b.todict('projects/' + self.owner + '/' + self.id + '/colab.json')
-        mydict.update({self.owner : [self.id, 5]})
-        b.tojson('projects/' + self.owner + '/' + self.id + '/colab.json', mydict)
-        
-        #upd projects_list
-        mydict = b.todict('projects/' + self.owner + '/projects_list.json')
-        mydict.update({self.name : [self.id, 5, self.owner]})
-        b.tojson('projects/' + self.owner + '/projects_list.json', mydict)
-
-        #upd my projcets
-        mydict = b.todict('projects/' + self.owner + '/my.json')
-        mydict.update({self.name : self.id})
-        b.tojson('projects/' + self.owner + '/my.json', mydict)
-
-        #colabs
-        self.colabs = b.todict('projects/' + self.owner + '/' + self.id + '/colab.json')
-        
-        #table
-        b.os.mkdir('projects/' + self.owner + '/' + self.id + '/table/')
-        f = open('projects/' + self.owner + '/' + self.id + '/table/history.txt', 'a')
-        f.close()
-        
-        f = open('projects/' + self.owner + '/' + self.id + '/table/table.txt', 'a')
-        f.write('\tbacklog\ttodo\tdoing\tdone\tarchived\n')
-        for i in range(1, 11):
-            f.write(str(i) + '\t' * 4 + '\n')
-        f.close()
-
-        for i in range(1, 11):
-            for j in range(1, 6):
-                f = open('projects/' + self.owner + '/' + self.id + '/table/' + str(i) + '-' + str(j) + '.txt', 'a')
-                f.close()
-        #acc log
-        f = open("accounts/" + self.owner + "/log.txt", "a")
-        f.write("\n---------------\n")
-        f.write(b.time.ctime() + "\n")
-        f.write(self.owner + " created a project named " + self.name + "\n")
-        f.close()
-
-        print('Project created successfully!')
-        print('Press any key to continue')
-        b.getch()
-        
     
     
     def project_menu(self):
@@ -164,6 +96,75 @@ Enter a number: """)
             elif x == '6':
                 self.show_log()
         b.bold(False)        
+        
+        
+    def create(self):
+        b.head()
+        b.bold()
+        print('Create a new project')
+        b.bold(False)
+        self.name = input('Project name: ')
+        b.os.mkdir('projects/' + self.owner + '/' + self.id)
+        #make name
+        f = open('projects/' + self.owner + '/' + self.id + '/name.txt', 'a')
+        f.write(self.name)
+        f.close()
+
+        #make colab.json
+        f = open('projects/' + self.owner + '/' + self.id + '/colab.json', 'a')
+        f.write("{ }")
+        f.close()
+
+        #make log
+        f = open('projects/' + self.owner + '/' + self.id + "/log.txt", "a")
+        f.write("\n---------------\n")
+        f.write(b.time.ctime() + "\n")
+        f.write("Project created by " + self.owner + "\n")
+        f.close()
+
+        mydict = b.todict('projects/' + self.owner + '/' + self.id + '/colab.json')
+        mydict.update({self.owner : [self.id, 5]})
+        b.tojson('projects/' + self.owner + '/' + self.id + '/colab.json', mydict)
+        
+        #upd projects_list
+        mydict = b.todict('projects/' + self.owner + '/projects_list.json')
+        mydict.update({self.name : [self.id, 5, self.owner]})
+        b.tojson('projects/' + self.owner + '/projects_list.json', mydict)
+
+        #upd my projcets
+        mydict = b.todict('projects/' + self.owner + '/my.json')
+        mydict.update({self.name : self.id})
+        b.tojson('projects/' + self.owner + '/my.json', mydict)
+
+        #colabs
+        self.colabs = b.todict('projects/' + self.owner + '/' + self.id + '/colab.json')
+        
+        #table
+        b.os.mkdir('projects/' + self.owner + '/' + self.id + '/table/')
+        f = open('projects/' + self.owner + '/' + self.id + '/table/history.txt', 'a')
+        f.close()
+        
+        f = open('projects/' + self.owner + '/' + self.id + '/table/table.txt', 'a')
+        f.write('\tbacklog\ttodo\tdoing\tdone\tarchived\n')
+        for i in range(1, 11):
+            f.write(str(i) + '\t' * 4 + '\n')
+        f.close()
+
+        for i in range(1, 11):
+            for j in range(1, 6):
+                f = open('projects/' + self.owner + '/' + self.id + '/table/' + str(i) + '-' + str(j) + '.txt', 'a')
+                f.close()
+        #acc log
+        f = open("accounts/" + self.owner + "/log.txt", "a")
+        f.write("\n---------------\n")
+        f.write(b.time.ctime() + "\n")
+        f.write(self.owner + " created a project named " + self.name + "\n")
+        f.close()
+
+        print('Project created successfully!')
+        print('Press any key to continue')
+        b.getch()
+        
     
     def show_colabs(self):
         b.head()
