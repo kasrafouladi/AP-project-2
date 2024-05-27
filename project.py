@@ -165,7 +165,17 @@ Enter a number: """)
         print('Press any key to continue')
         b.getch()
         
-    
+    def show_table(self):
+        table.main_menu('projects/' + self.owner + '/' + self.id + '/table/', self.colabs[b.user_handle][1])
+        
+    def show_log(self):
+        b.head()
+        f = open("projects/" + self.owner + "/" + self.id + "/log.txt", "r")
+        print(f.read())
+        print("press any key to continue")
+        b.getch()
+        f.close()
+        
     def show_colabs(self):
         b.head()
         print(self.name + "'s Collaborators:")
@@ -174,13 +184,6 @@ Enter a number: """)
         print("press any key to continue")
         b.getch()
         
-    def show_table(self):
-        table.main_menu('projects/' + self.owner + '/' + self.id + '/table/', self.colabs[b.user_handle][1])
+    
 
-    def show_log(self):
-        b.head()
-        f = open("projects/" + self.owner + "/" + self.id + "/log.txt", "r")
-        print(f.read())
-        print("press any key to continue")
-        b.getch()
-        f.close()
+   

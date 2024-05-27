@@ -194,6 +194,7 @@ def edit_task(path, al):
     except ValueError:
         print("Invalid input. Please enter valid row and column numbers.")
         
+        
 def add_comment(path):
     b.head()
     s = input("to see the comments for a task please enter the tasks coordinate in table like this: x-y or enter -1 for back\n")
@@ -214,7 +215,6 @@ def add_comment(path):
     f.write(b.user_handle + ": " + comm + '\n')
     f.close()
     
-
     print("press any key to continue")
     b.getch()
 
@@ -255,6 +255,7 @@ def main_menu(path, al):
             print(f.read())
             print("press any key to continue")
             b.getch()
+        
         
 if __name__ == '__main__':
     b.user_handle = 'kasra'

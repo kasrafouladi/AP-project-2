@@ -85,16 +85,6 @@ class Account:
                 print("press any key to continue")
                 b.getch()
             
-    def show_my(self):
-        b.head()
-        b.bold()
-        mydict = b.todict('projects/' + self.name + '/my.json')
-        print("Here you can see the projects that you are the leader in them: ")
-        for name in mydict:
-            print("name: " + name + ", id: " + mydict[name])
-        b.bold(False)
-        print("press any key to continue")
-        b.getch()
 
     def create_project(self):
         project = p.Project(owner = self.name, new = True)
@@ -115,6 +105,17 @@ class Account:
             if x == -1:
                 return
             p.Project(id = projects[names[x - 1]][0], owner = projects[names[x - 1]][2], name = names[x - 1], new = False)
+            
+    def show_my(self):
+        b.head()
+        b.bold()
+        mydict = b.todict('projects/' + self.name + '/my.json')
+        print("Here you can see the projects that you are the leader in them: ")
+        for name in mydict:
+            print("name: " + name + ", id: " + mydict[name])
+        b.bold(False)
+        print("press any key to continue")
+        b.getch()
 
 ######################################
 
