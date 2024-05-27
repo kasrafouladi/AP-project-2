@@ -7,7 +7,7 @@ def main():
     while True:
         enter.b.head()
         enter.b.bold()
-        print("menu: ")
+        print("Menu: ")
         print(" 1. acess to accounts")
         print(" 2. ban a username")
         print(" 3. recover the username")
@@ -36,6 +36,7 @@ def main():
             for i in range(len(users)):
                 if users[i] != s:
                     f.write(users[i] + '\n')
+            f.close()
             print("press any key")
             enter.b.getch()
         if x == '4':

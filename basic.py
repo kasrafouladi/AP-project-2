@@ -61,7 +61,7 @@ def head():
     if user_handle:
         c_col(35)
         if manager:
-            print("~ manager " + user_handle)
+            print("~ manager [" + user_handle + "]")
         else:
             print('~ ' + user_handle)
         c_col(37)
@@ -100,14 +100,3 @@ def getpsw(x, y):
 
 def reverse(s):
     return s[::-1]
-
-
-def main():
-    #print(hash('fouladi'))
-    #head('kasra')
-    #res = getpsw(10, 20)
-    #print(res)
-    pass
-
-if __name__ == '__main__':
-    main()
