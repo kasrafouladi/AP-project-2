@@ -60,7 +60,10 @@ def head():
     c_col(37)
     if user_handle:
         c_col(35)
-        print('~ ' + user_handle)
+        if manager:
+            print("~ manager " + user_handle)
+        else:
+            print('~ ' + user_handle)
         c_col(37)
     print('_' * 120)
     bold(False)

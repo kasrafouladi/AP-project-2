@@ -12,6 +12,7 @@ def main():
         print(" 2. ban a username")
         print(" 3. recover the username")
         print(" 4. change a user's password")
+        print(" 5. exit")
         enter.b.bold(False)
         x = input()
         if x == '1':

@@ -14,8 +14,10 @@ class Enter:
                 users = b.todict('accounts/users.json')
                 if b.user_handle in users.keys():
                     acc.Account(b.user_handle, False)
-                print("invalid username, try again")
-            return
+                    return
+                if len(b.user_handle) == 0:
+                    return
+                print("invalid username, try again or just press enter to back")
         
         sl = b.todict('accounts/saved_login.json')
         if b.time.time() - sl["time"] <= 7 * 24 * 60 * 60:
