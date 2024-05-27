@@ -11,7 +11,6 @@ class Account:
             self.create()
         self.show_menu()
     
-    
     def create(self):
         b.os.mkdir('./accounts/' + self.name)
         b.os.mkdir('./projects/' + self.name)
@@ -78,12 +77,9 @@ class Account:
             if x == -1:
                 return
             p.Project(id = projects[names[x - 1]][0], owner = projects[names[x - 1]][2], name = names[x - 1], new = False)
-            #tableview = open('projects/' + self.owner + '/' + self.id + '/' + self.name + ".txt", "r", encoding="utf-8")
-            
-            
-            
-            
-        
+
+######################################
+
 class Msg:
     def __init__(self, name):
         self.name = name
