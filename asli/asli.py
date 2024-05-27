@@ -80,9 +80,9 @@ def move_tasks(path):
                     save_table(path + 'table.txt')
                     log_history("Move Task", f"Moved task {task} from ({source_row}, {source_column}) to ({destination_row}, {destination_column})", path + 'history.txt')
                     
-                    b.os.rename(path + str(source_row) + '-' + str(source_column) + '.txt', path + str(source_row) + '-' + str(source_column) + '*.txt')
+                    b.os.rename(path + str(source_row) + '-' + str(source_column) + '.txt', path + str(source_row) + '-' + str(source_column) + '0.txt')
                     b.os.rename(path + str(destination_row) + '-' + str(destination_column) + '.txt', path + str(source_row) + '-' + str(source_column) + '.txt')
-                    b.os.rename(path + str(source_row) + '-' + str(source_column) + '*.txt', path + str(destination_row) + '-' + str(destination_column) + '.txt')
+                    b.os.rename(path + str(source_row) + '-' + str(source_column) + '0.txt', path + str(destination_row) + '-' + str(destination_column) + '.txt')
 
                     display_table()
                 else:
@@ -189,13 +189,23 @@ def edit_task(path, al):
 
 def add_comment(path):
     b.head()
-    f = open(path + '1-1.txt', 'r')
+    s = input("to see the comments for a task please enter the tasks coordinate in table like this: x-y or enter -1 for back\n")
+    if s == '-1':
+        return
+    b.head()
+    f = open(path + s + '.txt', 'r')
     b.bold()
     print("Here you can read the comments about this task:\n\n")
     b.bold(False)
     print(f.read())
     f.close()
-    comm = input("share your comment: ")
+    comm = input("share your comment(or just press enter): ")
+    if not comm:
+        return
+    f = open(path + s + '.txt', 'a')
+    f.write('_' * 40 + "\nTime: " + b.time.ctime() + '\n')
+    f.write(b.user_handle + ": " + comm + '\n')
+    f.close()
     print("press any key to continue")
     b.getch()
 
@@ -234,4 +244,4 @@ def main_menu(path, al):
             print("Invalid choice. Please select a valid option.")
 
 b.user_handle = 'kasra'
-main_menu("a/")
+main_menu("a/", 5)

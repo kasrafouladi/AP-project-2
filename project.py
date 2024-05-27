@@ -63,6 +63,7 @@ class Project:
         while True:
             b.head()
             b.bold()
+            print("Projects name" + self.name + ", Owner: " + self.owner)
             print("""
 Project's Items:
   1. See Collaborators list
