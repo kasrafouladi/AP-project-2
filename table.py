@@ -35,6 +35,8 @@ def move_tasks(path):
     except ValueError:
         print("Invalid input. Please enter valid row and column numbers.")
 
+################################################################################################
+
 def display_table(path):
     headers = ["", "backlog", "todo", "doing", "done", "archived"]
     rows = []
@@ -42,8 +44,9 @@ def display_table(path):
         rows.append([str(i)] + [", ".join(task) if task else "" for task in row[1:]])
     
     print(tabulate(rows, headers=headers, tablefmt='fancy_grid'))
-    pass#edit kon
+    pass
 
+#################################################################################################
 
 def add_task(path):
     try:
