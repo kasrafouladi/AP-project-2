@@ -63,11 +63,10 @@ def main():
             c = enter.b.getch()
             if c != 'Y':
                 continue
-            #enter.b.os.rmdir('accounts/')
-            #enter.b.os.rmdir('projects/')
+            
             import shutil
 
-            #shutil.rmtree('accounts/')
+            shutil.rmtree('accounts/')
             shutil.rmtree('projects/')
             enter.b.os.mkdir('accounts')
             enter.b.os.mkdir('projects')
