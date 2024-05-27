@@ -14,6 +14,10 @@ class Account:
         b.os.mkdir('./accounts/' + self.name)
         b.os.mkdir('./projects/' + self.name)
         f = open('projects/' + self.name + '/projects_list.json', 'a')
+        f.write("{ }")
+        f.close()
+        f = open('projects/' + self.name + '/my.json', 'a')
+        f.write("{ }")
         f.close()
         f = open('accounts/' + self.name + '/invitations.txt', 'a')
         f.close()
@@ -33,7 +37,8 @@ class Account:
             print(" 4. Show invatations")
             print(" 5. Create a new project")
             print(" 6. Show projects")
-            print(" 7. Sign out")
+            print(" 7. Owned projects")
+            print(" 8. Sign out")
             print ('\n-------------------\nTo choose any item pleas enter its section number and press enter ', end = '')
             b.bold(False)
             s = b.getch()
@@ -49,7 +54,7 @@ class Account:
                 self.create_project()
             if s == '6':
                 self.show_projects()
-            if s == '7':
+            if s == '8':
                 b.c_col(31)
                 print("Are you sure you want to sign out? (Y: yes / any other key: no) ", end = '', flush=True)
                 b.c_col(37)
@@ -59,7 +64,20 @@ class Account:
                 b.tojson('accounts/saved_login.json', {"user" : "sign in", "time" : 0})
                 b.user_handel = ""
                 return
+            if s == '7':
+                self.show_my()
             
+    def show_my(self):
+        b.head()
+        b.bold()
+        mydict = b.todict('projects/' + self.name + '/my.json')
+        print("Here you can see the projects that you are the leader in them: ")
+        for name in mydict:
+            print("name: " + name + ", id: " + mydict[name])
+        b.bold(False)
+        print("press any key to continue")
+        b.getch()
+
     def create_project(self):
         project = p.Project(owner = self.name, new = True)
         
@@ -291,11 +309,13 @@ class Invite:
                 if str1[n] == 'a':
                     #add to colab
                     mydict = b.todict('projects/' + str[n][1] + '/' + str[n][5] + '/colab.json')
-                    mydict.update({self.name : [str[n][5], str[n][4]]})
+                    mydict.update({self.name : [str[n][5], int(str[n][4])]})
                     b.tojson('projects/' + str[n][1] + '/' + str[n][5] + '/colab.json', mydict)
                     #add to list
                     mydict = b.todict('projects/' + self.name + '/projects_list.json')
-                    mydict.update({self.name : [str[n][5], str[n][4], str[n][1]]})
+                    f = open('projects/' + str[n][1] + '/' + str[n][5] + '/name.json', 'r')
+                    mydict.update({f.read() : [str[n][5], int(str[n][4]), str[n][1]]})
+                    f.close()
                     b.tojson('projects/' + self.name + '/projects_list.json', mydict)
 
                     print("accepted")
@@ -305,8 +325,11 @@ class Invite:
                 #update r_inv
                 f = open('accounts/' + self.name + '/r_inv.txt', 'w')
                 str1 = b.reverse(str1)
-                for i in range(n - 1):
-                    f.write(str1[i] + '\n')
+                for i in range(len(str1)):
+                    if i != len(str1) - 1:
+                        f.write(str1[i] + '\n')
+                    else:
+                        f.write(str1[i])
                 f.close()
 
                 b.bold(False)
