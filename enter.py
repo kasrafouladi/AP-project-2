@@ -24,6 +24,7 @@ class Enter:
             b.user_handle = sl["user"]
             f = open("accounts/log.txt", "a")
             f.write("\n---------------\n")
+            f.write(b.time.ctime() + "\n")
             f.write(sl["user"] + " signed in\n")
             f.close()
             acc.Account(sl["user"], False)
@@ -60,7 +61,8 @@ class Enter:
                 b.user_handle = username
                 f = open("accounts/log.txt", "a")
                 f.write("\n---------------\n")
-                f.write(sl["user"] + " signed in\n")
+                f.write(b.time.ctime() + "\n")
+                f.write(username + " signed in\n")
                 if c == 'Y':
                     f.write("and saved the sign in for a week\n")
                 f.close()
@@ -124,11 +126,11 @@ class Enter:
                 b.user_handle = username
                 f = open("accounts/log.txt", "a")
                 f.write("\n---------------\n")
-                f.write(sl["user"] + " signed up\n")
+                f.write(b.time.ctime() + "\n")
+                f.write(username + " signed up\n")
                 if c == 'Y':
                     f.write("and saved the sign in for a week\n")
                 f.close()
-                acc.Account(username, False)
                 acc.Account(username, True)
                 return
             b.start_from(7, 54)

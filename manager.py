@@ -43,6 +43,7 @@ def main():
             enter.b.getch()
         if x == '4':
             mydict = enter.b.todict('accounts/users.json')
+            enter.b.head()
             print("Change pass word")
             user = input("user name: ")
             if user not in mydict.keys():

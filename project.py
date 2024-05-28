@@ -36,6 +36,13 @@ class Project:
         f.write("{ }")
         f.close()
 
+        #make log
+        f = open('projects/' + self.owner + '/' + self.id + "/log.txt", "a")
+        f.write("\n---------------\n")
+        f.write(b.time.ctime() + "\n")
+        f.write("Project created by " + self.owner + "\n")
+        f.close()
+
         mydict = b.todict('projects/' + self.owner + '/' + self.id + '/colab.json')
         mydict.update({self.owner : [self.id, 5]})
         b.tojson('projects/' + self.owner + '/' + self.id + '/colab.json', mydict)
@@ -50,9 +57,10 @@ class Project:
         mydict.update({self.name : self.id})
         b.tojson('projects/' + self.owner + '/my.json', mydict)
 
-        #somthing
+        #colabs
         self.colabs = b.todict('projects/' + self.owner + '/' + self.id + '/colab.json')
         
+        #table
         b.os.mkdir('projects/' + self.owner + '/' + self.id + '/table/')
         f = open('projects/' + self.owner + '/' + self.id + '/table/history.txt', 'a')
         f.close()
@@ -67,6 +75,12 @@ class Project:
             for j in range(1, 6):
                 f = open('projects/' + self.owner + '/' + self.id + '/table/' + str(i) + '-' + str(j) + '.txt', 'a')
                 f.close()
+        #acc log
+        f = open("accounts/" + self.owner + "/log.txt", "a")
+        f.write("\n---------------\n")
+        f.write(b.time.ctime() + "\n")
+        f.write(self.owner + " created a project named " + self.name + "\n")
+        f.close()
 
         print('Project created successfully!')
         print('Press any key to continue')
@@ -86,16 +100,24 @@ Project's Items:
   3. Back
   4. Leave
   5. Kick Someone
+  6. Show log
 Enter a number: """)
             x = input()
             if x == '1':
                 self.show_colabs()
             elif x == '2':
                 self.show_table()
-            elif x == '4':
+            elif x == '4': 
                 del self.colabs[b.user_handle]
                 b.tojson('projects/' + self.owner + '/' + self.id + '/colab.json', self.colabs)
                 
+                if b.manager == False:
+                    f = open("projects/ " + self.owner + "/" + self.id + "/log.txt", "a")
+                    f.write("\n---------------\n")
+                    f.write(b.time.ctime() + "\n")
+                    f.write(b.user_handle + " left the project" + "\n")
+                    f.close()
+
                 mydict = b.todict('projects/' + b.user_handle + '/projects_list.json')
                 del mydict[self.name]
                 b.tojson('projects/' + b.user_handle + '/projects_list.json', mydict)
@@ -105,7 +127,7 @@ Enter a number: """)
                 break
             elif x == '5':
                 if b.user_handle != self.owner:
-                    print("only owner can kick someone")
+                    print("only owner can kicks someone")
                     b.getch()
                 else:
                     b.bold(False)
@@ -113,12 +135,22 @@ Enter a number: """)
                     if handle not in self.colabs.keys():
                         print("there is no such user in this project, press any key to continue")
                         b.getch()
+                        continue
+
+                    if b.manager == False:
+                        f = open("projects/" + self.owner + "/" + self.id + "/log.txt", "a")
+                        f.write("\n---------------\n")
+                        f.write(b.time.ctime() + "\n")
+                        f.write(self.owner + " kicked out " + handle + "\n")
+                        f.close()
 
                     del self.colabs[handle]
                     b.tojson('projects/' + self.owner + '/' + self.id + '/colab.json', self.colabs)
                     mydict = b.todict('projects/' + handle + '/projects_list.json')
                     del mydict[self.name]
                     b.tojson('projects/' + handle + '/projects_list.json', mydict)
+            elif x == '6':
+                self.show_log()
         b.bold(False)        
     
     def show_colabs(self):
@@ -131,3 +163,11 @@ Enter a number: """)
         
     def show_table(self):
         table.main_menu('projects/' + self.owner + '/' + self.id + '/table/', self.colabs[b.user_handle][1])
+
+    def show_log(self):
+        b.head()
+        f = open("projects/" + self.owner + "/" + self.id + "/log.txt", "r")
+        print(f.read())
+        print("press any key to continue")
+        b.getch()
+        f.close()

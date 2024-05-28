@@ -19,6 +19,9 @@ class Account:
         f = open('projects/' + self.name + '/my.json', 'a')
         f.write("{ }")
         f.close()
+        f = open("accounts/" + self.owner + "/log.txt", "a")
+        f.write("\n")
+        f.close()
         f = open('accounts/' + self.name + '/invitations.txt', 'a')
         f.close()
         f = open('accounts/' + self.name + '/message.txt', 'a')
@@ -39,6 +42,7 @@ class Account:
             print(" 6. Show projects")
             print(" 7. Owned projects")
             print(" 8. Sign out")
+            print(" 9. Show log")
             print ('\n-------------------\nTo choose any item pleas enter its section number and press enter ', end = '')
             b.bold(False)
             s = b.getch()
@@ -66,6 +70,14 @@ class Account:
                 return
             if s == '7':
                 self.show_my()
+
+            if s == '9':
+                b.head()
+                f = open('accounts/' + self.name + '/log.txt', 'r')
+                print(f.read())
+                f.close()
+                print("press any key to continue")
+                b.getch()
             
     def show_my(self):
         b.head()
@@ -304,23 +316,45 @@ class Invite:
                     if ch != 'e':
                         if ch == 'a':
                             str1[n] = 'a'
+                            #add to colab
+                            mydict = b.todict('projects/' + str[n][1] + '/' + str[n][5] + '/colab.json')
+                            mydict.update({self.name : [str[n][5], int(str[n][4])]})
+                            b.tojson('projects/' + str[n][1] + '/' + str[n][5] + '/colab.json', mydict)
+                    
+                            f = open("accounts/" + self.owner + "/log.txt", "a")
+                            f.write("\n---------------\n")
+                            f.write(b.time.ctime() + "\n")
+                            f.write("Joined to the project with id: " + str[n][5] + "\n")
+                            f.close()
+                            #add to list
+                            mydict = b.todict('projects/' + self.name + '/projects_list.json')
+                            f = open('projects/' + str[n][1] + '/' + str[n][5] + '/name.json', 'r')
+                            mydict.update({f.read() : [str[n][5], int(str[n][4]), str[n][1]]})
+                            f.close()
+                            b.tojson('projects/' + self.name + '/projects_list.json', mydict)
+
+                            f = open("projects/ " + self.owner + "/" + self.id + "/log.txt", "a")
+                            f.write("\n---------------\n")
+                            f.write(b.time.ctime() + "\n")
+                            f.write(b.user_handle + " joined to the project" + "\n")
+                            f.close()
+
+                            print("accepted")
+
                         else:
                             str1[n] = 'd'
-                if str1[n] == 'a':
-                    #add to colab
-                    mydict = b.todict('projects/' + str[n][1] + '/' + str[n][5] + '/colab.json')
-                    mydict.update({self.name : [str[n][5], int(str[n][4])]})
-                    b.tojson('projects/' + str[n][1] + '/' + str[n][5] + '/colab.json', mydict)
-                    #add to list
-                    mydict = b.todict('projects/' + self.name + '/projects_list.json')
-                    f = open('projects/' + str[n][1] + '/' + str[n][5] + '/name.json', 'r')
-                    mydict.update({f.read() : [str[n][5], int(str[n][4]), str[n][1]]})
-                    f.close()
-                    b.tojson('projects/' + self.name + '/projects_list.json', mydict)
+                            f = open("accounts/" + self.owner + "/log.txt", "a")
+                            f.write("\n---------------\n")
+                            f.write(b.time.ctime() + "\n")
+                            f.write("Declined invatation from the project with id: " + str[n][5] + "\n")
+                            f.close()
+                            print("declined")
+                            
 
+                elif str1[n] == 'a':
                     print("accepted")
                 
-                if str1[n] == 'd':
+                elif str1[n] == 'd':
                     print("declined")
                 #update r_inv
                 f = open('accounts/' + self.name + '/r_inv.txt', 'w')

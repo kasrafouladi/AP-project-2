@@ -78,7 +78,7 @@ def move_tasks(path):
                     table_data[destination_row][destination_column] = task
                     table_data[source_row][source_column] = {}
                     save_table(path + 'table.txt')
-                    log_history("Move Task", f"Moved task {task} from ({source_row}, {source_column}) to ({destination_row}, {destination_column})", path + 'history.txt')
+                    log_history("Move Task", b.user_handle + f" moved task {task} from ({source_row}, {source_column}) to ({destination_row}, {destination_column})", path + 'history.txt')
                     
                     b.os.rename(path + str(source_row) + '-' + str(source_column) + '.txt', path + str(source_row) + '-' + str(source_column) + '0.txt')
                     b.os.rename(path + str(destination_row) + '-' + str(destination_column) + '.txt', path + str(source_row) + '-' + str(source_column) + '.txt')
@@ -132,7 +132,7 @@ def add_task(path):
             table_data[row][column] = {"task": task_name, "for": for_whom,
             "author": author_name, "subject": subject, "imp" : imp}
             save_table(path + 'table.txt')
-            log_history("Add Task", f"Added task {table_data[row][column]} to ({row}, {column})", path + 'history.txt')
+            log_history("Add Task", b.user_handle + f" added task {table_data[row][column]} to ({row}, {column})", path + 'history.txt')
             display_table()
         else:
             print("Invalid row or column number. Please try again.")
@@ -177,7 +177,7 @@ def edit_task(path, al):
                     table_data[row][column]['subject'] = subject
 
                 save_table(path + 'table.txt')
-                log_history("Edit Task", f"Edited task at ({row}, {column}) to {table_data[row][column]}", path+'history.txt')
+                log_history("Edit Task", b.user_handle + f" edited task at ({row}, {column}) to {table_data[row][column]}", path+'history.txt')
                 display_table()
             else:
                 print("No task found at the specified location.")
@@ -206,6 +206,8 @@ def add_comment(path):
     f.write('_' * 40 + "\nTime: " + b.time.ctime() + '\n')
     f.write(b.user_handle + ": " + comm + '\n')
     f.close()
+    
+
     print("press any key to continue")
     b.getch()
 
@@ -213,7 +215,7 @@ def main_menu(path, al):
     load_table(path + 'table.txt')
     while True:
         display_table()
-        action = input("Select an action:\n1. Move tasks\n2. Add tasks\n3. Edit tasks\n4. Add Comment\n5. Exit\nEnter a number: ")
+        action = input("Select an action:\n1. Move tasks\n2. Add tasks\n3. Edit tasks\n4. Add Comment\n5. Exit\n6. log\nEnter a number: ")
 
         if action == '1':
             move_tasks(path)
@@ -240,9 +242,12 @@ def main_menu(path, al):
             print("Exiting program...")
             break
 
-        else:
-            print("Invalid choice. Please select a valid option.")
-
+        elif action == '6':
+            f = open(path + "history.txt", "r")
+            print(f.read())
+            print("press any key to continue")
+            b.getch()
+        
 if __name__ == '__main__':
     b.user_handle = 'kasra'
     main_menu("a/", 5)
