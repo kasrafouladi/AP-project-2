@@ -190,7 +190,7 @@ class Table:
                         for_whom = input("Enter new for (leave blank to keep current): ")
                 
                     imp = input("Enter new imp (leave blank to keep current) (1: LOW/2: MEDIUM/3: HIGH/4: CRITICAL): ")
-                    
+
                     if not imp:
                         impo = Imp.LOW
                         imp = impo.name
