@@ -127,10 +127,10 @@ def add_task(path):
         for_whom = input("Enter assigned: ")
         author_name = b.user_handle
         imp = input("Improtance(1/2/3/4): ")
-
+        dl = input("enter the deadline:")
         if 1 <= row <= 10 and 1 <= column <= 5:
             table_data[row][column] = {"task": task_name, "for": for_whom,
-            "author": author_name, "subject": subject, "imp" : imp}
+            "author": author_name, "subject": subject, "imp" : imp, "deadline" :  dl}
             save_table(path + 'table.txt')
             log_history("Add Task", b.user_handle + f" added task {table_data[row][column]} to ({row}, {column})", path + 'history.txt')
             display_table()
@@ -152,12 +152,14 @@ def edit_task(path, al):
         if 1 <= row <= 10 and 1 <= column <= 5:
             if table_data[row][column]:
                 print("Current task details:")
+                print(f"Subject: {table_data[row][column].get('subject', '')}")
                 print(f"Task: {table_data[row][column].get('task', '')}")
                 print(f"For: {table_data[row][column].get('for', '')}")
                 print(f"imp: {table_data[row][column].get('imp', '')}")
-                print(f"Subject: {table_data[row][column].get('subject', '')}")
-                
+                print(f"deadline: {table_data[row][column].get('deadline', '')}")
+
                 for_whom = ""
+                dl = ""
 
                 task_name = input("Enter new task name (leave blank to keep current): ")
                 
@@ -167,6 +169,11 @@ def edit_task(path, al):
                 imp = input("Enter new imp (leave blank to keep current): ")
                 subject = input("Enter new subject (leave blank to keep current): ")
 
+                if b.user_handle == table_data[row][column].get('author', '') or al == 5:
+                    dl = input("Enter new deadline (leave blank to keep current): ")
+                
+                if dl:
+                    table_data[row][column]['deadline'] = dl
                 if task_name:
                     table_data[row][column]['task'] = task_name
                 if for_whom:
