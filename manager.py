@@ -94,10 +94,6 @@ def main():
             shutil.rmtree('projects/')
             enter.b.os.mkdir('accounts')
             enter.b.os.mkdir('projects')
-            
-            f = open("projects/.gitkeep", "a")
-            f.write("\n")
-            f.close()
 
             f = open("accounts/banned.txt", "a")
             f.write("\n")
