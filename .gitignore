@@ -1,5 +1,5 @@
 *.txt
 *.json
 __pycache__/
-#projects/
+projects/
 accounts/
