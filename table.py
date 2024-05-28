@@ -104,7 +104,7 @@ def display_table():
         row_content = []
         for cell in row[1:]:
             if isinstance(cell, dict) and cell:
-                cell_content = f" subject: {cell.get('subject', '')}\ntask:{cell.get('task', '')}\nfor: {cell.get('for', '')}\nauthor: {cell.get('author', '')}\nimp: {cell.get('imp', '')}"
+                cell_content = f" subject: {cell.get('subject', '')}\ntask:{cell.get('task', '')}\nfor: {cell.get('for', '')}\nauthor: {cell.get('author', '')}\nimp: {cell.get('imp', '')}\ndeadline: {cell.get('deadline')}"
                 row_content.append(cell_content)
             else:
                 row_content.append("")
@@ -127,7 +127,7 @@ def add_task(path):
         for_whom = input("Enter assigned: ")
         author_name = b.user_handle
         imp = input("Improtance(1/2/3/4): ")
-        dl = input("enter the deadline:")
+        dl = input("enter the deadline: ")
         if 1 <= row <= 10 and 1 <= column <= 5:
             table_data[row][column] = {"task": task_name, "for": for_whom,
             "author": author_name, "subject": subject, "imp" : imp, "deadline" :  dl}

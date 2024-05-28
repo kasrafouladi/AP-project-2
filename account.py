@@ -65,6 +65,12 @@ class Account:
                 ch = b.getch()
                 if ch != 'Y':
                     continue
+                if b.manager == False:
+                    f = open("accounts/log.txt", "a")
+                    f.write("\n---------------\n")
+                    f.write(b.time.ctime() + "\n")
+                    f.write(self.name + " signed out\n")
+                    f.close()
                 b.tojson('accounts/saved_login.json', {"user" : "sign in", "time" : 0})
                 b.user_handel = ""
                 return

@@ -112,10 +112,16 @@ Enter a number: """)
                 b.tojson('projects/' + self.owner + '/' + self.id + '/colab.json', self.colabs)
                 
                 if b.manager == False:
-                    f = open("projects/ " + self.owner + "/" + self.id + "/log.txt", "a")
+                    f = open("projects/" + self.owner + "/" + self.id + "/log.txt", "a")
                     f.write("\n---------------\n")
                     f.write(b.time.ctime() + "\n")
                     f.write(b.user_handle + " left the project" + "\n")
+                    f.close()
+
+                    f = open("accounts/" + b.user_handle +  "/log.txt", "a")
+                    f.write("\n---------------\n")
+                    f.write(b.time.ctime() + "\n")
+                    f.write("Left the project with id: " + self.id + "\n")
                     f.close()
 
                 mydict = b.todict('projects/' + b.user_handle + '/projects_list.json')
@@ -142,6 +148,12 @@ Enter a number: """)
                         f.write("\n---------------\n")
                         f.write(b.time.ctime() + "\n")
                         f.write(self.owner + " kicked out " + handle + "\n")
+                        f.close()
+
+                        f = open("accounts/" + b.user_handle +  "/log.txt", "a")
+                        f.write("\n---------------\n")
+                        f.write(b.time.ctime() + "\n")
+                        f.write("Kicked out from the project with id: " + self.id + "\n")
                         f.close()
 
                     del self.colabs[handle]
