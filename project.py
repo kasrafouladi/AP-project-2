@@ -101,6 +101,7 @@ Enter a number: """)
                     b.getch()
                 else:
                     self.terminate()
+                    return
         b.bold(False)        
         
     def create(self):
@@ -125,7 +126,7 @@ Enter a number: """)
         f = open('projects/' + self.owner + '/' + self.id + "/log.txt", "a")
         f.write("\n---------------\n")
         f.write(b.time.ctime() + "\n")
-        f.write("CREATE - Project created by " + self.owner + "\n")
+        f.write("CREATE - Project with id: " + self.id + " created by " + self.owner + "\n")
         f.close()
 
         #make colab

@@ -108,7 +108,6 @@ class Table:
                 else:
                     row_content.append("")
             rows.append([str(i)] + row_content)
-
         print(tabulate(rows, headers=headers, tablefmt='fancy_grid'))
 
     def add_task(self, path):
@@ -116,7 +115,7 @@ class Table:
             row = input("Enter row number (1-10) or type 'exit' to quit: ")
             if row.lower() == 'exit':
                 return
-
+            
             row = int(row)
             column = input("Enter column number (1-5) (press enter to choose BACKLOG): ")
             subject = input("Enter subject: ")
@@ -273,7 +272,7 @@ class Table:
         self.load_table(path + 'table.txt')
         while True:
             self.display_table()
-            action = input("Select an action:\n1. Move tasks\n2. Add tasks\n3. Edit tasks\n4. Add Comment\n5. Exit\n6. log\nEnter a number: ")
+            action = input("Select an action:\n1. Move tasks\n2. Add tasks\n3. Edit tasks\n4. Add Comment\n5. Exit\n6. log\n7. Remove Task\nEnter a number: ")
 
             if action == '1':
                 self.move_tasks(path)
