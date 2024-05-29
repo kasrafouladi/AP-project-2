@@ -1,5 +1,4 @@
-*.txt
-*.json
 __pycache__/
-#projects/
-accounts/
+projects/*/
+accounts/*/
+manager/*/

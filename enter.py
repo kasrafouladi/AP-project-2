@@ -25,7 +25,7 @@ class Enter:
             f = open("accounts/log.txt", "a")
             f.write("\n---------------\n")
             f.write(b.time.ctime() + "\n")
-            f.write(sl["user"] + " signed in\n")
+            f.write("SIGN IN - " + sl["user"] + " signed in\n")
             f.close()
             acc.Account(sl["user"], False)
         else:
@@ -62,7 +62,7 @@ class Enter:
                 f = open("accounts/log.txt", "a")
                 f.write("\n---------------\n")
                 f.write(b.time.ctime() + "\n")
-                f.write(username + " signed in\n")
+                f.write("SIGN IN - " + username + " signed in\n")
                 if c == 'Y':
                     f.write("and saved the sign in for a week\n")
                 f.close()
@@ -100,8 +100,9 @@ class Enter:
         print(' ' * 40 +' Username :\n')
         print(' '* 40 + ' Password :\n')
         print(' ' * 40 + ' Confirm :\n' + ' ' * 40  +'Password\n')
+        print(' ' * 40  +'Email :\n')
         print('-' * 120)
-        print('IF you want to sign in write \'sign in\' in the form instead of username', end = '')
+        print('\n' + 'IF you want to sign in write \'sign in\' in the form instead of username', end = '')
         b.bold(False)
 
         while True:
@@ -112,9 +113,15 @@ class Enter:
                 return
             password = b.getpsw(9, 54)
             confirmpassword = b.getpsw(11, 54)
-            if self.validate_signup(username, password, confirmpassword) == 1:
+            
+            b.start_from(14, 54)
+            email = input()
+            if email:
+                email = email.lower()
+
+            if self.validate_signup(username, password, confirmpassword, email) == 1:
                 b.c_col(32)
-                b.start_from(12, 0)
+                b.start_from(20, 0)
                 print('Do you want to save your login for a week? (Y: yes/any other key: no) ', end = '', flush=True)
                 b.c_col(37)
                 c = b.getch()
@@ -123,62 +130,88 @@ class Enter:
                 userslist = b.todict('accounts/users.json')
                 userslist.update({username: b.hash(password)})
                 b.tojson('accounts/users.json', userslist)
+
+                emails = b.todict('accounts/users.json')
+                emails.update({username: email})
+                b.tojson('accounts/emails.json', emails)
+
                 b.user_handle = username
                 f = open("accounts/log.txt", "a")
                 f.write("\n---------------\n")
                 f.write(b.time.ctime() + "\n")
-                f.write(username + " signed up\n")
+                f.write("SIGN UP - " + username + " signed up\n")
                 if c == 'Y':
                     f.write("and saved the sign in for a week\n")
                 f.close()
                 acc.Account(username, True)
                 return
+            
+            # erase inputs in the from
             b.start_from(7, 54)
             print(' ' * len(username))
             b.start_from(9, 54)
             print(' ' * len(password))
             b.start_from(11, 54)
             print(' ' * len(confirmpassword))
+            b.start_from(14, 54)
+            print(' ' * len(email))
 
-    def validate_signup(self, username, password, confirmpassword):
+    def validate_signup(self, username, password, confirmpassword, email):
         users = b.todict('accounts/users.json')
         b.c_col(31)
-        
+        ok = True
+
         if len(username) == 0:
             b.start_from(8, 54)
-            print("Username's length can't be 0", end = "")
+            print("Username's length can't be 0          ", end = "")
             b.c_col(37)
-            return False
-
-        if username == "sign up":
+            ok = False
+        elif username == "sign up":
             b.start_from(8, 54)
-            print("Username can't be sign up", end = "")
-            b.c_col(37)
-            return False
-
-        if username in self.banned:
+            print("Username can't be sign up             ", end = "")
+            ok = False
+        elif username in users.keys():
             b.start_from(8, 54)
-            print("This username is banned", end = "")
-            b.c_col(37)
-            return False
+            print("This username is taken by another user", end = "")
+            ok = False
+        elif username in self.banned:
+            b.start_from(8, 54)
+            print("This username is banned               ", end = "")
+            ok = False
+        else:
+            b.start_from(8, 54)
+            print("                                      ", end = "")
 
         if len(password) == 0:
             b.start_from(10, 54)
             print("Password's length can't be 0", end = "")
-            b.c_col(37)
-            return False
-
-        if username in users.keys():
-            b.start_from(8, 54)
-            print("This username is taken by another user", end = "")
-            b.c_col(37)
-            return False
+            ok = False
+        else:
+            b.start_from(10, 54)
+            print("                            ", end = "")
 
         if password != confirmpassword:
             b.start_from(12, 54)
-            print("Passwords do not match", end = "")
-            b.c_col(37)
-            return False
+            print("Passwords aren't match", end = "")
+            ok = False
+        else:
+            b.start_from(12, 54)
+            print("                      ", end = "")
+        
+        emails = b.todict('accounts/emails.json')
+
+        if email == "":
+            b.start_from(15, 54)
+            print("Eneter an email     ", end = "")
+            ok = False
+        
+        elif email in emails.values():
+            b.start_from(15, 54)
+            print("Email must be unique", end = "")
+            ok = False
+        else:
+            b.start_from(15, 54)
+            print("                    ", end = "")
         
         b.c_col(37)
-        return True
+        return ok

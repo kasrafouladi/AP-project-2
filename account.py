@@ -70,7 +70,7 @@ class Account:
                     f = open("accounts/log.txt", "a")
                     f.write("\n---------------\n")
                     f.write(b.time.ctime() + "\n")
-                    f.write(self.name + " signed out\n")
+                    f.write("SIGN OUT - " + self.name + " signed out\n")
                     f.close()
                 b.tojson('accounts/saved_login.json', {"user" : "sign in", "time" : 0})
                 b.user_handel = ""
@@ -259,15 +259,13 @@ class Invite:
                             mydict.update({f.read() : [str[n][5], int(str[n][4]), str[n][1]]})
                             f.close()
                             b.tojson('projects/' + self.name + '/projects_list.json', mydict)
-
+                            #update log
                             f = open("projects/" + str[n][1] + '/' + str[n][5] + "/log.txt", "a")
                             f.write("\n---------------\n")
-                            f.write(b.time.ctime() + "\n")
+                            f.write(b.time.ctime() + "\n NEW COLAB - ")
                             f.write(b.user_handle + " joined to the project" + "\n")
                             f.close()
-
                             print("accepted")
-
                         else:
                             str1[n] = 'd'
                             f = open("accounts/" + self.name + "/log.txt", "a")
@@ -276,11 +274,8 @@ class Invite:
                             f.write("Declined invatation from the project with id: " + str[n][5] + "\n")
                             f.close()
                             print("declined")
-                            
-
                 elif str1[n] == 'a':
                     print("accepted")
-                
                 elif str1[n] == 'd':
                     print("declined")
                 #update r_inv

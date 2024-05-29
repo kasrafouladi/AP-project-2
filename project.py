@@ -9,7 +9,6 @@ class Project:
         if new:
             self.id = id if id else str(int(b.time.time()))
             self.create()
-            
         else:
             self.backup(name, id)
         self.project_menu()
@@ -18,8 +17,6 @@ class Project:
         self.name = name
         self.id = id
         self.colabs = b.todict('projects/' + self.owner + '/' + self.id + '/colab.json')
-        pass   
-    
     
     def project_menu(self):
         while True:
@@ -48,20 +45,20 @@ Enter a number: """)
                     f = open("projects/" + self.owner + "/" + self.id + "/log.txt", "a")
                     f.write("\n---------------\n")
                     f.write(b.time.ctime() + "\n")
-                    f.write(b.user_handle + " left the project" + "\n")
+                    f.write("LEFT" + b.user_handle + " left the project" + "\n")
                     f.close()
 
                     f = open("accounts/" + b.user_handle +  "/log.txt", "a")
                     f.write("\n---------------\n")
                     f.write(b.time.ctime() + "\n")
-                    f.write("Left the project with id: " + self.id + "\n")
+                    f.write("LEFT - Left the project with id: " + self.id + "\n")
                     f.close()
-
+                
                 mydict = b.todict('projects/' + b.user_handle + '/projects_list.json')
                 del mydict[self.name]
                 b.tojson('projects/' + b.user_handle + '/projects_list.json', mydict)
-
                 break
+
             elif x == '3':
                 break
             elif x == '5':
@@ -80,13 +77,13 @@ Enter a number: """)
                         f = open("projects/" + self.owner + "/" + self.id + "/log.txt", "a")
                         f.write("\n---------------\n")
                         f.write(b.time.ctime() + "\n")
-                        f.write(self.owner + " kicked out " + handle + "\n")
+                        f.write("KICK - " + self.owner + " kicked out " + handle + "\n")
                         f.close()
 
                         f = open("accounts/" + b.user_handle +  "/log.txt", "a")
                         f.write("\n---------------\n")
                         f.write(b.time.ctime() + "\n")
-                        f.write("Kicked out from the project with id: " + self.id + "\n")
+                        f.write("KICK - Kicked out from the project with id: " + self.id + "\n")
                         f.close()
 
                     del self.colabs[handle]
@@ -106,6 +103,7 @@ Enter a number: """)
         b.bold(False)
         self.name = input('Project name: ')
         b.os.mkdir('projects/' + self.owner + '/' + self.id)
+        
         #make name
         f = open('projects/' + self.owner + '/' + self.id + '/name.txt', 'a')
         f.write(self.name)
@@ -120,9 +118,10 @@ Enter a number: """)
         f = open('projects/' + self.owner + '/' + self.id + "/log.txt", "a")
         f.write("\n---------------\n")
         f.write(b.time.ctime() + "\n")
-        f.write("Project created by " + self.owner + "\n")
+        f.write("CREATE - Project created by " + self.owner + "\n")
         f.close()
 
+        #make colab
         mydict = b.todict('projects/' + self.owner + '/' + self.id + '/colab.json')
         mydict.update({self.owner : [self.id, 5]})
         b.tojson('projects/' + self.owner + '/' + self.id + '/colab.json', mydict)
@@ -131,35 +130,38 @@ Enter a number: """)
         mydict = b.todict('projects/' + self.owner + '/projects_list.json')
         mydict.update({self.name : [self.id, 5, self.owner]})
         b.tojson('projects/' + self.owner + '/projects_list.json', mydict)
-
+        
         #upd my projcets
         mydict = b.todict('projects/' + self.owner + '/my.json')
         mydict.update({self.name : self.id})
         b.tojson('projects/' + self.owner + '/my.json', mydict)
-
+        
         #colabs
         self.colabs = b.todict('projects/' + self.owner + '/' + self.id + '/colab.json')
         
-        #table
+        #table log
         b.os.mkdir('projects/' + self.owner + '/' + self.id + '/table/')
         f = open('projects/' + self.owner + '/' + self.id + '/table/history.txt', 'a')
         f.close()
         
+        #table table
         f = open('projects/' + self.owner + '/' + self.id + '/table/table.txt', 'a')
         f.write('\tbacklog\ttodo\tdoing\tdone\tarchived\n')
         for i in range(1, 11):
             f.write(str(i) + '\t' * 4 + '\n')
         f.close()
 
+        #init table cells comment
         for i in range(1, 11):
             for j in range(1, 6):
                 f = open('projects/' + self.owner + '/' + self.id + '/table/' + str(i) + '-' + str(j) + '.txt', 'a')
                 f.close()
+        
         #acc log
         f = open("accounts/" + self.owner + "/log.txt", "a")
         f.write("\n---------------\n")
         f.write(b.time.ctime() + "\n")
-        f.write(self.owner + " created a project named " + self.name + "\n")
+        f.write("CREATE - " + self.owner + " created a project named " + self.name + "\n")
         f.close()
 
         print('Project created successfully!')
@@ -184,7 +186,3 @@ Enter a number: """)
             print(" " + colab + ", Access level: " + str(self.colabs[colab][1]))
         print("press any key to continue")
         b.getch()
-        
-    
-
-   

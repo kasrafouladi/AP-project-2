@@ -6,6 +6,8 @@ import msvcrt
 
 user_handle = ""
 
+admin_handle = ""
+
 manager = False
 
 def getpsw(x, y):
@@ -33,6 +35,7 @@ def getpsw(x, y):
             print('*', end = '', flush = True)
             y += 1
             res += c
+
 
 def reverse(s):
     return s[::-1]
@@ -98,7 +101,7 @@ def head():
     if user_handle:
         c_col(35)
         if manager:
-            print("~ manager [" + user_handle + "]")
+            print("~ " + admin_handle + " [" + user_handle + "]")
         else:
             print('~ ' + user_handle)
         c_col(37)
