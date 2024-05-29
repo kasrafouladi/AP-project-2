@@ -16,6 +16,7 @@ def main():
         print(" 5. exit")
         print(" 6. reset facotry")
         print(" 7. show log")
+        print(" 8. accounts list")
         enter.b.bold(False)
         x = input()
         
@@ -33,16 +34,31 @@ def main():
             enter.b.getch()
             
         if x == '3':
-            print("Recover a user")
-            s = input("Here you can write the username you want: ")
+            enter.b.head()
+
+            print("Recover a user\n")
             f = open('accounts/banned.txt', 'r')
             users = f.read().split('\n')
             f.close()
+
+            print("Banned users:")
+            
+            for i in range(len(users)):
+                print(users[i])
+            
+            s = input("--------------\nHere you can write the username you want(or just press enter): ")
+
             f = open('accounts/banned.txt', 'w')
             for i in range(len(users)):
                 if users[i] != s:
                     f.write(users[i] + '\n')
             f.close()
+
+            if s in users:
+                print("user recovered successfully")
+            else:
+                print("invalid username")
+
             print("press any key")
             enter.b.getch()
             
@@ -104,5 +120,15 @@ def main():
             print("press any key to continue")
             enter.b.getch()
 
+        if x == '8':
+            users = enter.b.todict("accounts/users.json")
+            enter.b.head()
+            print("Accounts: \n")
+            for name in users.keys():
+                print(name)
+            
+            print("--------\npress a key")
+            enter.b.getch()
+        
 if __name__ == '__main__':
     main()

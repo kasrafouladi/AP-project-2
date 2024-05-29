@@ -65,6 +65,7 @@ class Account:
                 ch = b.getch()
                 if ch != 'Y':
                     continue
+                b.user_handle = ""
                 if b.manager == False:
                     f = open("accounts/log.txt", "a")
                     f.write("\n---------------\n")
@@ -117,7 +118,6 @@ class Account:
         print("press any key to continue")
         b.getch()
 
-######################################
 
 class Invite:
     def __init__(self, name):
@@ -292,12 +292,11 @@ class Invite:
                     else:
                         f.write(str1[i])
                 f.close()
-
                 b.bold(False)
                 print('press any key to continue')
                 b.getch()
 
-#####################################################################3333
+
 class Msg:
     def __init__(self, name):
         self.name = name
@@ -336,7 +335,6 @@ class Msg:
         ch = b.getch()
         if b.os.path.exists('accounts/' + to + '/') == False:
             print('there is no such user')
-            return
         else:
             now = b.time.ctime()
             f = open('accounts/' + to + '/message.txt', 'a')

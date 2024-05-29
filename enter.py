@@ -143,42 +143,42 @@ class Enter:
     def validate_signup(self, username, password, confirmpassword):
         users = b.todict('accounts/users.json')
         b.c_col(31)
-        ok = True
+        
         if len(username) == 0:
             b.start_from(8, 54)
             print("Username's length can't be 0", end = "")
-            ok = False
-        else:
+            b.c_col(37)
+            return False
+
+        if username == "sign up":
             b.start_from(8, 54)
-            print("                            ", end = "")
+            print("Username can't be sign up", end = "")
+            b.c_col(37)
+            return False
 
         if username in self.banned:
             b.start_from(8, 54)
             print("This username is banned", end = "")
-            ok = False
+            b.c_col(37)
+            return False
 
         if len(password) == 0:
             b.start_from(10, 54)
             print("Password's length can't be 0", end = "")
-            ok = False
-        else:
-            b.start_from(10, 54)
-            print("                             ", end = "")
+            b.c_col(37)
+            return False
 
         if username in users.keys():
             b.start_from(8, 54)
             print("This username is taken by another user", end = "")
-            ok = False
-        else:
-            b.start_from(8, 54)
-            print("                                      ", end = "")
+            b.c_col(37)
+            return False
 
         if password != confirmpassword:
             b.start_from(12, 54)
             print("Passwords do not match", end = "")
-            ok = False
-        else:
-            b.start_from(12, 54)
-            print("                      ", end = "")
+            b.c_col(37)
+            return False
         
-        return ok
+        b.c_col(37)
+        return True

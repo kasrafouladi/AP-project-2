@@ -5,6 +5,7 @@ import table
 class Project:
     def __init__(self, id = "", owner = "", new = False, name = ""):
         self.owner = owner
+        self.tb = table.Table()
         if new:
             self.id = id if id else str(int(b.time.time()))
             self.create()
@@ -166,7 +167,7 @@ Enter a number: """)
         b.getch()
         
     def show_table(self):
-        table.main_menu('projects/' + self.owner + '/' + self.id + '/table/', self.colabs[b.user_handle][1])
+        self.tb.main_menu('projects/' + self.owner + '/' + self.id + '/table/', self.colabs[b.user_handle][1])
         
     def show_log(self):
         b.head()
