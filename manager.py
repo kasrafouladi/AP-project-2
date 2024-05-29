@@ -29,7 +29,7 @@ class Manager:
             print("This username is taken by another admin")
             return
         else:
-            mydict.update({username: password})
+            mydict.update({username: enter.b.hash(password)})
             enter.b.tojson("managers/admins.json", mydict)
             enter.b.admin_handle = username
             print("New admin created! press any key to continue")

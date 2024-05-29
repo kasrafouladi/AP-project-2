@@ -131,7 +131,7 @@ class Enter:
                 userslist.update({username: b.hash(password)})
                 b.tojson('accounts/users.json', userslist)
 
-                emails = b.todict('accounts/users.json')
+                emails = b.todict('accounts/emails.json')
                 emails.update({username: email})
                 b.tojson('accounts/emails.json', emails)
 
