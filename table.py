@@ -10,6 +10,7 @@ class Imp(Enum):
     HIGH = 3
     CRITICAL = 4
 
+
 class Table:
     def __init__(self):
         self.table_data = [
@@ -326,6 +327,7 @@ class Table:
                     f.close()
                 except ValueError:
                     continue
+
 
 if __name__ == '__main__':
     k = Imp.LOW
