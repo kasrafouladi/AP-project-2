@@ -103,7 +103,7 @@ class Table:
             row_content = []
             for cell in row[1:]:
                 if isinstance(cell, dict) and cell:
-                    cell_content = f" subject: {cell.get('subject', '')}\ntask:{cell.get('task', '')}\nfor: {cell.get('for', '')}\nauthor: {cell.get('author', '')}\nimp: {cell.get('imp', '')}\ndeadline: {cell.get('deadline', '')}"
+                    cell_content = f" subject: {cell.get('subject', '')}\ntask:{cell.get('task', '')}\nfor: {cell.get('for', '')}\nauthor: {cell.get('author', '')}\nimp: {cell.get('imp', '')}\nstart time: {cell.get('start time', '')}\ndeadline: {cell.get('deadline', '')}"
                     row_content.append(cell_content)
                 else:
                     row_content.append("")
@@ -124,6 +124,7 @@ class Table:
             for_whom = input("Enter assigned: ")
             author_name = b.user_handle
             imp = input("Improtance(1: LOW/2: MEDIUM/3: HIGH/4: CRITICAL): ")
+            tb = input("enter the time to start doing task(or press enter to fill with default value): ")
             dl = input("enter the deadline(or press enter to fill with default value): ")
 
             if not column:
@@ -153,10 +154,13 @@ class Table:
             if not dl:
                 from datetime import datetime, timedelta
                 dl = datetime.now() + timedelta(days=1)
+            if not tb:
+                from datetime import datetime, timedelta
+                tb = datetime.now()
 
             if 1 <= row <= 10 and 1 <= column <= 5:
                 self.table_data[row][column] = {"task": task_name, "for": for_whom,
-                "author": author_name, "subject": subject, "imp": imp, "deadline":  dl}
+                "author": author_name, "subject": subject, "imp": imp, "start time": tb, "deadline": dl}
                 self.save_table(path + 'table.txt')
                 self.log_history("Add Task", b.user_handle + f" added task {self.table_data[row][column]} to ({row}, {column})", path + 'history.txt')
                 self.display_table()
@@ -179,15 +183,17 @@ class Table:
                     print(f"Task: {self.table_data[row][column].get('task', '')}")
                     print(f"For: {self.table_data[row][column].get('for', '')}")
                     print(f"imp: {self.table_data[row][column].get('imp', '')}")
+                    print(f"start time: {self.table_data[row][column].get('start time', '')}")
                     print(f"deadline: {self.table_data[row][column].get('deadline', '')}")
 
                     for_whom = ""
                     dl = ""
+                    tb = ""
 
                     task_name = input("Enter new task name (leave blank to keep current): ")
 
                     if b.user_handle == self.table_data[row][column].get('author', '') or al == 5:
-                        for_whom = input("Enter new for (leave blank to keep current): ")
+                        for_whom = input("Enter new assigneds (leave blank to keep current): ")
                 
                     imp = input("Enter new imp (leave blank to keep current) (1: LOW/2: MEDIUM/3: HIGH/4: CRITICAL): ")
 
@@ -213,8 +219,13 @@ class Table:
                     subject = input("Enter new subject (leave blank to keep current): ")
 
                     if b.user_handle == self.table_data[row][column].get('author', '') or al == 5:
+                        tb = input("Enter new deadline (leave blank to keep current): ")
+
+                    if b.user_handle == self.table_data[row][column].get('author', '') or al == 5:
                         dl = input("Enter new deadline (leave blank to keep current): ")
-                
+                    
+                    if tb:
+                        self.table_data[row][column]['start time'] = tb
                     if dl:
                         self.table_data[row][column]['deadline'] = dl
                     if task_name:
@@ -294,7 +305,27 @@ class Table:
                 print(f.read())
                 print("press any key to continue")
                 b.getch()
-
+            
+            elif action == '7':
+                b.head()
+                try:
+                    print("to remove a task enter the coordinate of the task (x y) or enter -1 to back")
+                    l = input().split()
+                    if len(l) != 2:
+                        continue
+                    row = l[0]
+                    column = l[1]
+                    if self.table_data[row][column]['author'] != b.user_handle or al != 5:
+                        print("you can't remove this task, press any key to continue")
+                        b.getch()
+                        continue
+                    self.log_history("Remove Task", b.user_handle + f" removed task {self.table_data[row][column]} located in ({row}, {column})", path + 'history.txt')
+                    self.table_data[row][column] = {}
+                    f = open(path + str(row) + '-' + str(column) + '.txt', 'w')
+                    f.write('\n')
+                    f.close()
+                except ValueError:
+                    continue
 
 if __name__ == '__main__':
     k = Imp.LOW
