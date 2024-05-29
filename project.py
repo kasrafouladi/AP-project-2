@@ -31,6 +31,7 @@ Project's Items:
   4. Leave
   5. Kick Someone
   6. Show log
+  7. Terminate
 Enter a number: """)
             x = input()
             if x == '1':
@@ -57,7 +58,7 @@ Enter a number: """)
                 mydict = b.todict('projects/' + b.user_handle + '/projects_list.json')
                 del mydict[self.name]
                 b.tojson('projects/' + b.user_handle + '/projects_list.json', mydict)
-                break
+                return
 
             elif x == '3':
                 break
@@ -93,8 +94,14 @@ Enter a number: """)
                     b.tojson('projects/' + handle + '/projects_list.json', mydict)
             elif x == '6':
                 self.show_log()
+                return
+            elif x == '7':
+                if b.user_handle != self.owner:
+                    print("only owner is able to terminates the project, press any key to continue")
+                    b.getch()
+                else:
+                    self.terminate()
         b.bold(False)        
-        
         
     def create(self):
         b.head()
@@ -186,3 +193,17 @@ Enter a number: """)
             print(" " + colab + ", Access level: " + str(self.colabs[colab][1]))
         print("press any key to continue")
         b.getch()
+
+    def terminate(self):
+        import shutil
+        shutil.rmtree('projects/' + self.owner + '/' + self.id)
+        for handle in self.colabs.keys():
+            if b.manager == False:
+                f = open("accounts/" + b.user_handle +  "/log.txt", "a")
+                f.write("\n---------------\n")
+                f.write(b.time.ctime() + "\n")
+                f.write("TERMINATE - " + b.user_handle + " terminates the project with id: " + self.id + "\n")
+                f.close()
+            mydict = b.todict('projects/' + handle + '/projects_list.json')
+            del mydict[self.name]
+            b.tojson('projects/' + handle + '/projects_list.json', mydict)
