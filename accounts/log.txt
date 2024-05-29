@@ -8,3 +8,12 @@ and saved the sign in for a week
 ---------------
 Wed May 29 14:55:12 2024
 SIGN OUT - 1 signed out
+
+---------------
+Wed May 29 14:56:40 2024
+SIGN IN - 1 signed in
+and saved the sign in for a week
+
+---------------
+Wed May 29 15:00:26 2024
+SIGN IN - 1 signed in

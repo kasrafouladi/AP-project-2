@@ -272,7 +272,7 @@ class Table:
         self.load_table(path + 'table.txt')
         while True:
             self.display_table()
-            action = input("Select an action:\n1. Move tasks\n2. Add tasks\n3. Edit tasks\n4. Add Comment\n5. Exit\n6. log\n7. Remove Task\nEnter a number: ")
+            action = input("Select an action:\n1. Move tasks\n2. Add tasks\n3. Edit tasks\n4. Add Comment\n5. Exit\n6. log\n7. Remove Tasks\nEnter a number: ")
 
             if action == '1':
                 self.move_tasks(path)
@@ -308,12 +308,13 @@ class Table:
             elif action == '7':
                 b.head()
                 try:
+                    print("Remove tasks")
                     print("to remove a task enter the coordinate of the task (x y) or enter -1 to back")
                     l = input().split()
                     if len(l) != 2:
                         continue
-                    row = l[0]
-                    column = l[1]
+                    row = int(l[0])
+                    column = int(l[1])
                     if self.table_data[row][column]['author'] != b.user_handle or al != 5:
                         print("you can't remove this task, press any key to continue")
                         b.getch()
