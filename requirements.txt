@@ -1,0 +1,14 @@
+OS: windows
+
+Python 3.10
+
+packages:
+enum
+json
+os
+time
+subprocess
+msvcrt
+tabulate
+shutill
+datetime
