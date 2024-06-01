@@ -200,7 +200,7 @@ Enter a number: """)
         shutil.rmtree('projects/' + self.owner + '/' + self.id)
         for handle in self.colabs.keys():
             if b.manager == False:
-                f = open("accounts/" + b.user_handle +  "/log.txt", "a")
+                f = open("accounts/" + handle +  "/log.txt", "a")
                 f.write("\n---------------\n")
                 f.write(b.time.ctime() + "\n")
                 f.write("TERMINATE - " + b.user_handle + " terminates the project with id: " + self.id + "\n")
