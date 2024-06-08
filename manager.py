@@ -113,7 +113,7 @@ class Manager:
                         f.write(users[i] + '\n')
                 f.close()
 
-                if s in users:
+                if s in users and s != "":
                     print("user recovered successfully")
                 else:
                     print("invalid username")
