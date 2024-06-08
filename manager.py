@@ -79,6 +79,7 @@ class Manager:
                 if s not in enter.b.todict('accounts/users.json').keys():
                     print("no such user press any key to countinue")
                     enter.b.getch()
+                    continue
                 
                 f = open('accounts/banned.txt', 'a')
                 f.write(s + '\n')
