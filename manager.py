@@ -76,7 +76,7 @@ class Manager:
                 print("Ban a user")
                 s = input("Here you can write the username you want: ")
                 
-                if s not in enter.b.todict('accounts/users.json).keys():
+                if s not in enter.b.todict('accounts/users.json').keys():
                     print("no such user press any key to countinue")
                     enter.b.getch()
                 
