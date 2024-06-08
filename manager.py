@@ -9,20 +9,34 @@ class Manager:
         subparsers = parser.add_subparsers(title="arguments", dest="command")
 
         # create-admin
-        create_admin_parser = subparsers.add_parser("create-admin", help = "create admin")
+        create_admin_parser = subparsers.add_parser("create-admin", help = "creates an admin")
         create_admin_parser.add_argument("--username", required=True, help = "admins user name")
         create_admin_parser.add_argument("--password", required=True, help = "admins password")
 
+        # enter-admin
+        enter_admin_parser = subparsers.add_parser("enter-admin", help = "let you enter as admin")
+        enter_admin_parser.add_argument("--username", required=True, help = "admins user name")
+        enter_admin_parser.add_argument("--password", required=True, help = "admins password")
+        
         # reset
-        reset_parser = subparsers.add_parser("purge-data", help="تابع ریست را اجرا کنید")
+        reset_parser = subparsers.add_parser("purge-data", help = "resets any thing")
 
         args = parser.parse_args()
 
         if args.command == "create-admin":
             self.create(args.username, args.password)
+        if args.command == "enter-admin":
+            self.enter(args.username, args.password)
         elif args.command == "purge-data":
             self.reset()
-
+    
+    def enter(self, username, password):
+        mydict = enter.b.todict("managers/admins.json")
+        if username not in mydict.keys() or enter.b.hash(password) != mydict[username]:
+            print("Invalid username or password")
+            return
+        self.menu()
+    
     def create(self, username, password):
         mydict = enter.b.todict("managers/admins.json")
         if username in mydict.keys():
