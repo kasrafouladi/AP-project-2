@@ -35,6 +35,7 @@ class Manager:
         if username not in mydict.keys() or enter.b.hash(password) != mydict[username]:
             print("Invalid username or password")
             return
+        enter.b.admin_handle = username
         self.menu()
     
     def create(self, username, password):
@@ -71,13 +72,23 @@ class Manager:
                 e.ent()
             
             if x == '2':
-                f = open('accounts/banned.txt', 'a')
                 enter.b.head()
                 print("Ban a user")
                 s = input("Here you can write the username you want: ")
+                
+                if s not in enter.b.todict('accounts/users.json).keys():
+                    print("no such user press any key to countinue")
+                    enter.b.getch()
+                
+                f = open('accounts/banned.txt', 'a')
                 f.write(s + '\n')
                 f.close()
-                print("press any key")
+                if enter.b.todict('accounts/saved_login.json')["user"] == s:
+                    f = open("accounts/saved_login.json", "a")
+                    f.write("{\"user\": \"sign in\", \"time\": 0}")
+                    f.close()
+                
+                print("user banned press any key to countinue")
                 enter.b.getch()
             
             if x == '3':
