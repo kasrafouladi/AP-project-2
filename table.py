@@ -282,19 +282,19 @@ class Table:
                 if 3 <= al:
                     self.add_task(path)
                 else:
-                    print("youre acess level is under 3 so yo cant add a task")
+                    print("your acess level is under 3 so you cant add a task")
 
             elif action == '3':
                 if 4 <= al:
                     self.edit_task(path, al)
                 else:
-                    print("youre acess level is under 4 so yo cant edit a task")
+                    print("your acess level is under 4 so you cant edit a task")
 
             elif action == '4':
                 if 2 <= al:
                     self.add_comment(path)
                 else:
-                    print("youre acess level is under 2 so yo cant share your comment for a task")
+                    print("your acess level is under 2 so you cant share your comment for a task")
 
             elif action == '5':
                 print("Exiting program...")
