@@ -248,7 +248,7 @@ class Table:
         
     def add_comment(self, path):
         b.head()
-        s = input("to see the comments for a task please enter the tasks coordinate in table like this: x-y or enter -1 for back\n")
+        s = input("to see the comments for a task please enter the tasks coordinate in table like this: x-y x is in [1,10] and y is in [1, 5] or enter -1 for back\n")
         if s == '-1':
             return
         b.head()
@@ -310,13 +310,13 @@ class Table:
                 b.head()
                 try:
                     print("Remove tasks")
-                    print("to remove a task enter the coordinate of the task (x y) or enter -1 to back")
-                    l = input().split()
+                    print("to remove a task enter the coordinate of the task (x-y) (x is in [1, 10] and y is in [1, 5])or enter -1 to back")
+                    l = input().split('-')
                     if len(l) != 2:
                         continue
                     row = int(l[0])
                     column = int(l[1])
-                    if self.table_data[row][column]['author'] != b.user_handle or al != 5:
+                    if self.table_data[row][column]['author'] != b.user_handle and al != 5:
                         print("you can't remove this task, press any key to continue")
                         b.getch()
                         continue
@@ -327,8 +327,3 @@ class Table:
                     f.close()
                 except ValueError:
                     continue
-
-
-if __name__ == '__main__':
-    k = Imp.LOW
-    print(k.name)
