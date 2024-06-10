@@ -97,14 +97,15 @@ def head():
     print('OC board' + ' ' * 24  + 'Created by: Orange Car' + ' ' * 30, end = '')
     c_col(32)
     print('Local time: ' + time.ctime())
-    c_col(37)
+    c_col(35)
     if user_handle:
-        c_col(35)
         if manager:
             print("~ " + admin_handle + " [" + user_handle + "]")
         else:
             print('~ ' + user_handle)
-        c_col(37)
+    elif manager:
+        print('~ ' + admin_handle)
+    c_col(37)
     print('_' * 120)
     bold(False)
 
